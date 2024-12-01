@@ -1,6 +1,7 @@
 type Author = {
   _id: number;
   name: string;
+  image: string;
 };
 
 export type StartupCardType = {

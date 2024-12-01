@@ -7,6 +7,7 @@ import {Button} from "@/components/ui/button";
 import {StartupCardType} from "@/types";
 
 const StartupCard = ({post}: { post: StartupCardType }) => {
+
   return (
     <li className={'startup-card group'}>
       <div className={'flex-between'}>
@@ -28,7 +29,7 @@ const StartupCard = ({post}: { post: StartupCardType }) => {
           </Link>
         </div>
         <Link href={`/user/${post.author?._id}`}>
-          <Image src={'https://placehold.co/48'}
+          <Image src={post?.author?.image || 'https://placehold.co/48'}
                  alt={'placeholder'}
                  width={48}
                  height={48}
@@ -39,7 +40,9 @@ const StartupCard = ({post}: { post: StartupCardType }) => {
         <p className={'startup-card_desc'}>
           {post.description}
         </p>
-        <img className={'startup-card_img'} alt={'placeholder'} src={post.image}/>
+        <img className={'startup-card_img'}
+             alt={'placeholder'}
+             src={post.image}/>
       </Link>
       <div className={'flex-between gap-3 mt-5'}>
         <Link href={`/?query=${post.category.toLowerCase()}`}>
