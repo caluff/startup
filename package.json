@@ -11,6 +11,10 @@
     "prebuild": "npm run typegen",
     "typegen": "sanity schema extract --path=./sanity/extract.json && sanity typegen generate"
   },
+  "overrides": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
   "dependencies": {
     "@radix-ui/react-slot": "1.1.1",
     "@sanity/image-url": "1.1.0",
