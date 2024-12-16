@@ -3,7 +3,7 @@ import Form from "next/form";
 import SearchFormReset from "@/components/search-form-reset";
 import {Search} from "lucide-react";
 
-const SearchForm = ({query}: { query?: string }) => {
+export const SearchForm = ({query}: { query?: string }) => {
 
 
   return (
@@ -21,5 +21,3 @@ const SearchForm = ({query}: { query?: string }) => {
     </Form>
   );
 };
-
-export default SearchForm;
