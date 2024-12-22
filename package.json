@@ -25,6 +25,7 @@
     "easymde": "2.18.0",
     "extract": "1.0.0",
     "lucide-react": "0.468.0",
+    "markdown-it": "^14.1.0",
     "next": "15.1.0",
     "next-auth": "5.0.0-beta.25",
     "next-sanity": "9.8.27",
@@ -38,11 +39,12 @@
     "tailwindcss-animate": "1.0.7"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
     "@types/node": "22",
     "@types/react": "19",
     "@types/react-dom": "19",
-    "eslint": "9",
-    "eslint-config-next": "15.1.0",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "^15.1.0",
     "postcss": "8",
     "tailwindcss": "3.4.16",
     "typescript": "5"

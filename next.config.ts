@@ -7,8 +7,13 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: '*',
       },
-      
+
     ]
+  },
+  devIndicators: {
+    appIsrStatus: true,
+    buildActivity: true,
+    buildActivityPosition: 'bottom-right'
   }
 };
 
