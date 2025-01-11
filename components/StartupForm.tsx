@@ -9,14 +9,14 @@ import {Send} from "lucide-react";
 import {formSchema} from "@/lib/validation";
 import {z} from 'zod'
 import {useToast} from "@/hooks/use-toast";
-import {useRouter} from "next/navigation";
+// import {useRouter} from "next/navigation";
 
 export const StartupForm = () => {
 
   const [pitch, setPitch] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({})
   const {toast} = useToast()
-  const router = useRouter()
+  // const router = useRouter()
   const handleFormSubmit = async (prevState: any, formData: FormData) => {
     try {
       const formValues = {
