@@ -9,14 +9,15 @@ import {Send} from "lucide-react";
 import {formSchema} from "@/lib/validation";
 import {z} from 'zod'
 import {useToast} from "@/hooks/use-toast";
-// import {useRouter} from "next/navigation";
+import {useRouter} from "next/navigation";
+import {createPitch} from "@/lib/actions";
 
 export const StartupForm = () => {
 
   const [pitch, setPitch] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({})
   const {toast} = useToast()
-  // const router = useRouter()
+  const router = useRouter()
   const handleFormSubmit = async (prevState: any, formData: FormData) => {
     try {
       const formValues = {
@@ -27,16 +28,16 @@ export const StartupForm = () => {
         pitch,
       }
       await formSchema.parseAsync(formValues)
-      console.log(formValues)
-      // const result = await createIdea(prevState,formData,pitch)
-      // if (result.status === "SUCCESS") {
-      //   toast({
-      //     title: "Success",
-      //     description: "You startup pitch has been created successfully",
-      //   })
-      //   router.push(`/startup/${result.id}`)
-      // }
-      // return result
+      const result = await createPitch(prevState, formData, pitch)
+      if (result.status === "SUCCESS") {
+        toast({
+          title: "Success",
+          description: "You startup pitch has been created successfully",
+        })
+        router.push(`/startup/${result._id}`)
+      }
+      return result
+
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErrors = error.flatten().fieldErrors
@@ -45,7 +46,6 @@ export const StartupForm = () => {
         return {...prevState, error: "Validation failed", status: "ERROR"}
       }
       toast({title: "Error", description: "An unexpected error has occurred", variant: "destructive"})
-
       return {...prevState, error: "An unexpected error has occurred", status: "ERROR"}
     }
   }
