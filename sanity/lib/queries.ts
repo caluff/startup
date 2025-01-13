@@ -1,6 +1,7 @@
-import {defineQuery} from "groq";
+import { defineQuery } from 'groq'
 
-export const STARTUP_QUERY = defineQuery(`*[_type=="startup" && defined(slug.current) && !defined($search) || title match $search || category match $search || author->name match $search] | order(_createdAt desc){
+export const STARTUP_QUERY =
+  defineQuery(`*[_type=="startup" && defined(slug.current) && !defined($search) || title match $search || category match $search || author->name match $search] | order(_createdAt desc){
   _id,
     title,
     slug,
@@ -58,7 +59,8 @@ bio
 }
 `)
 
-export const STARTUP_BY_AUTH_QUERY = defineQuery(`*[_type=="startup" && author._ref == $id] | order(_createdAt desc){
+export const STARTUP_BY_AUTH_QUERY =
+  defineQuery(`*[_type=="startup" && author._ref == $id] | order(_createdAt desc){
   _id,
     title,
     slug,
@@ -95,4 +97,4 @@ export const PLAYLIST_BY_SLUG_QUERY =
     image,
     pitch
   }
-}`);
+}`)

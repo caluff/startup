@@ -1,8 +1,8 @@
-import {defineField, defineType} from "sanity";
-import {UserIcon} from "lucide-react";
+import { defineField, defineType } from 'sanity'
+import { UserIcon } from 'lucide-react'
 
 export const author = defineType({
-  name: "author",
+  name: 'author',
   title: 'Author',
   type: 'document',
   // @ts-ignore
@@ -35,7 +35,7 @@ export const author = defineType({
   ],
   preview: {
     select: {
-      title: 'name'
-    }
-  }
+      title: 'name',
+    },
+  },
 })

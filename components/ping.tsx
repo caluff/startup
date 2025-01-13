@@ -8,5 +8,5 @@ export const Ping = () => {
         </span>
       </div>
     </div>
-  );
-};
+  )
+}

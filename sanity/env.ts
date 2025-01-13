@@ -1,6 +1,4 @@
-export const apiVersion =
-  process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2024-12-01'
-
+export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2024-12-01'
 
 export const dataset = assertValue(
   process.env.NEXT_PUBLIC_SANITY_DATASET,
@@ -13,7 +11,6 @@ export const projectId = assertValue(
 )
 
 export const token = process.env.SANITY_WRTIE_TOKEN
-
 
 function assertValue<T>(v: T | undefined, errorMessage: string): T {
   if (v === undefined) {
