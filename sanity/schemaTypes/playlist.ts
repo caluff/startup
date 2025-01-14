@@ -1,7 +1,7 @@
-import {defineField, defineType} from "sanity";
+import { defineField, defineType } from 'sanity'
 
 export const playlist = defineType({
-  name: "playlist",
+  name: 'playlist',
   title: 'playlist',
   type: 'document',
   fields: [
@@ -13,13 +13,13 @@ export const playlist = defineType({
       name: 'slug',
       type: 'slug',
       options: {
-        source: 'title'
-      }
+        source: 'title',
+      },
     }),
     defineField({
       name: 'select',
       type: 'array',
-      of: [{type: 'reference', to: [{type: 'startup'}]}]
+      of: [{ type: 'reference', to: [{ type: 'startup' }] }],
     }),
   ],
 })

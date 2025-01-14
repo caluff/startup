@@ -1,4 +1,4 @@
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session {
     id: string
   }

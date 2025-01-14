@@ -9,7 +9,9 @@
     "lint": "next lint",
     "predev": "npm run typegen",
     "prebuild": "npm run typegen",
-    "typegen": "sanity schema extract --path=./sanity/extract.json && sanity typegen generate"
+    "typegen": "sanity schema extract --path=./sanity/extract.json && sanity typegen generate",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "overrides": {
     "react": "^19.0.0",
