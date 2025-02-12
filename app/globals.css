@@ -148,30 +148,6 @@
     @apply size-[50px] rounded-full bg-black flex justify-center items-center !important;
   }
 
-  /* startupcard */
-  .startup-card {
-    @apply bg-white border-[5px] border-black py-6 px-5 rounded-[22px] shadow-200 hover:border-primary transition-all duration-500 hover:shadow-300 hover:bg-primary-100;
-  }
-
-  .startup-card_date {
-    @apply font-medium text-[16px] bg-primary-100 px-4 py-2 rounded-full group-hover:bg-white-100;
-  }
-
-  .startup-card_desc {
-    @apply font-normal text-[16px] line-clamp-2 my-3 text-black-100 break-all;
-  }
-
-  .startup-card_img {
-  }
-
-  .startup-card_btn {
-    @apply rounded-full bg-black-200 font-medium text-[16px] text-white px-5 py-3 !important;
-  }
-
-  .startup-card_skeleton {
-    @apply w-full h-96 rounded-[22px] bg-zinc-400;
-  }
-
   /* startupform */
   .startup-form {
     @apply max-w-2xl mx-auto bg-white my-10 space-y-8 px-6;
