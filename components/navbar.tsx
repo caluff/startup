@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import Image from 'next/image'
 import { auth, signIn, signOut } from '@/auth'
 import { BadgePlus, LogOut } from 'lucide-react'
