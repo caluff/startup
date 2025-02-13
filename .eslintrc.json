@@ -1,15 +1,11 @@
 {
-  "plugins": ["prettier", "tailwindcss"],
+  "plugins": [
+    "prettier"
+  ],
   "extends": [
     "next/core-web-vitals",
     "next/typescript",
-    "plugin:tailwindcss/recommended",
     "prettier"
   ],
-  "settings": {
-    "tailwindcss": {
-      "config": "tailwind.config.js"
-    }
-  },
   "rules": {}
 }
