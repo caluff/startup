@@ -20,13 +20,12 @@
     "@sanity/image-url": "1.1.0",
     "@sanity/vision": "3.75.0",
     "@sentry/nextjs": "^9.1.0",
-    "@tailwindcss/typography": "0.5.16",
     "@uiw/react-md-editor": "^4.0.5",
     "babel-plugin-react-compiler": "^19.0.0-beta-30d8a17-20250209",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "easymde": "2.18.0",
-    "extract": "1.0.0",
+    "eslint-config-prettier": "^10.0.1",
     "lucide-react": "^0.475.0",
     "markdown-it": "^14.1.0",
     "next": "15.1.7",
@@ -40,8 +39,7 @@
     "server-only": "0.0.1",
     "slugify": "^1.6.6",
     "styled-components": "6.1.15",
-    "tailwind-merge": "3.0.1",
-    "tailwindcss-animate": "1.0.7"
+    "tailwind-merge": "3.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.6",
@@ -52,8 +50,6 @@
     "eslint": "^9.20.1",
     "eslint-config-next": "^15.1.7",
     "eslint-plugin-prettier": "^5.2.3",
-    "postcss": "8",
-    "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^4.0.6",
     "typescript": "5"
   }
