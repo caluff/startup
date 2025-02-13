@@ -2,6 +2,9 @@ import { withSentryConfig } from '@sentry/nextjs'
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  experimental: {
+    reactCompiler: true,
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -54,6 +57,7 @@ export default withSentryConfig(nextConfig, {
   // tunnelRoute: "/monitoring",
 
   // Hides source maps from generated client bundles
+  // @ts-ignore
   hideSourceMaps: true,
 
   // Automatically tree-shake Sentry logger statements to reduce bundle size

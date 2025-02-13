@@ -25,10 +25,10 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   return (
     <>
-      <section className="pink_container !min-h-[280px] flex flex-col items-center justify-center text-center">
+      <section className="pink_container min-h-[280px]! flex flex-col items-center justify-center text-center">
         <p className="tag inline-block">{formatDate(post?._createdAt)}</p>
         <h1 className="heading mt-4 mb-3">{post.title}</h1>
-        <p className="sub-heading !max-w-3xl mx-auto">{post.description}</p>
+        <p className="sub-heading max-w-3xl! mx-auto">{post.description}</p>
       </section>
 
       <section className="section_container">
@@ -56,7 +56,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
               />
               <div>
                 <p className="text-24-medium">{post.author.name}</p>
-                <p className="text-16-medium !text-black-300">@{post.author.username}</p>
+                <p className="text-16-medium text-black-300!">@{post.author.username}</p>
               </div>
             </Link>
             <p className="category-tag text-lg">{post.category}</p>
