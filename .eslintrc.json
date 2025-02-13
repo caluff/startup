@@ -1,8 +1,5 @@
 {
-  "plugins": [
-    "prettier",
-    "tailwindcss"
-  ],
+  "plugins": ["prettier", "tailwindcss"],
   "extends": [
     "next/core-web-vitals",
     "next/typescript",
@@ -14,6 +11,5 @@
       "config": "tailwind.config.js"
     }
   },
-  "rules": {
-  }
+  "rules": {}
 }
