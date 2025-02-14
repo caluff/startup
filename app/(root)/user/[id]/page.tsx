@@ -1,4 +1,3 @@
-import { auth } from '@/auth'
 import { client } from '@/sanity/lib/client'
 import { AUTHOR_BY_ID_QUERY } from '@/sanity/lib/queries'
 import { notFound } from 'next/navigation'
@@ -9,9 +8,9 @@ import { StartupCardSkeleton } from '@/components/startup-card'
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id
-  const session = await auth()
 
-  const user = await client.fetch(AUTHOR_BY_ID_QUERY, { id })
+  const user = await client.fetch(AUTHOR_BY_ID_QUERY, { id: id })
+
   if (!user) return notFound()
 
   return (
@@ -32,7 +31,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           <p className={'mt-1 text-center text-14-normal'}>{user?.bio}</p>
         </div>
         <div className={'flex-1 flex flex-col gap-5 lg:-mt-5'}>
-          <p className={'text-30-bold'}>{session?.id === id ? 'Your' : 'All'} Startups</p>
           <ul className={'card_grid-sm'}>
             <Suspense fallback={<StartupCardSkeleton />}>
               <UserStartups id={id} />

@@ -1,10 +1,11 @@
-import type { Metadata } from 'next'
-import './globals.css'
-import React from 'react'
-import localFont from 'next/font/local'
-import 'easymde/dist/easymde.min.css'
 import { Toaster } from '@/components/ui/toaster'
+import { ClerkProvider } from '@clerk/nextjs'
+import 'easymde/dist/easymde.min.css'
+import type { Metadata } from 'next'
 import { ViewTransitions } from 'next-view-transitions'
+import localFont from 'next/font/local'
+import React from 'react'
+import './globals.css'
 
 const workSans = localFont({
   src: [
@@ -60,12 +61,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ViewTransitions>
-      <html lang="en">
-        <body className={workSans.variable}>
-          {children}
-          <Toaster />
-        </body>
-      </html>
+      <ClerkProvider>
+        <html lang="en">
+          <body className={workSans.variable}>
+            {children}
+            <Toaster />
+          </body>
+        </html>
+      </ClerkProvider>
     </ViewTransitions>
   )
 }
