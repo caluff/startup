@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "predev": "npm run typegen",
-    "prebuild": "npm run typegen",
+    "predev": "npm run",
+    "prebuild": "npm run",
     "typegen": "sanity schema extract --path=./sanity/extract.json && sanity typegen generate",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
