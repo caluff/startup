@@ -15,6 +15,7 @@ export const formSchema = z.object({
       } catch {
         return false
       }
-    }),
+    })
+    .optional(),
   pitch: z.string().min(10),
 })

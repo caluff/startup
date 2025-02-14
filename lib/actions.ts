@@ -1,13 +1,14 @@
 'use server'
 
-import { auth } from '@/auth'
 import { parseServerActionResponse } from '@/lib/utils'
-import slugify from 'slugify'
 import { writeClient } from '@/sanity/lib/write-client'
+import { currentUser, User } from '@clerk/nextjs/server'
+import slugify from 'slugify'
 
 export const createPitch = async (state: any, form: FormData, pitch: string) => {
-  const session = await auth()
-  if (!session) return parseServerActionResponse({ error: 'Not signed in', status: 'ERROR' })
+  const clerkUser: User | null = await currentUser()
+
+  if (!clerkUser) return parseServerActionResponse({ error: 'Not signed in', status: 'ERROR' })
   const { title, description, category, link } = Object.fromEntries(
     Array.from(form).filter(([key]) => key !== 'pitch')
   )
@@ -18,14 +19,14 @@ export const createPitch = async (state: any, form: FormData, pitch: string) => 
       title,
       description,
       category,
-      image: link,
+      image: link ?? '',
       slug: {
         _type: slug,
         current: slug,
       },
       author: {
         _type: 'reference',
-        _ref: session?.id,
+        _ref: clerkUser?.id,
       },
       pitch,
     }

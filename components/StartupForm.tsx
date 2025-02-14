@@ -1,16 +1,16 @@
 'use client'
 
-import { Input } from '@/components/ui/input'
-import { useActionState, useState } from 'react'
-import { Textarea } from '@/components/ui/textarea'
-import MDEditor from '@uiw/react-md-editor'
 import { Button } from '@/components/ui/button'
-import { Send } from 'lucide-react'
-import { formSchema } from '@/lib/validation'
-import { z } from 'zod'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/hooks/use-toast'
-import { useRouter } from 'next/navigation'
 import { createPitch } from '@/lib/actions'
+import { formSchema } from '@/lib/validation'
+import MDEditor from '@uiw/react-md-editor'
+import { Send } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useActionState, useState } from 'react'
+import { z } from 'zod'
 
 export const StartupForm = () => {
   const [pitch, setPitch] = useState('')
@@ -24,7 +24,7 @@ export const StartupForm = () => {
         title: formData.get('title') as string,
         description: formData.get('description') as string,
         category: formData.get('category') as string,
-        link: formData.get('link') as string,
+        link: (formData.get('link') as string) ?? '',
         pitch,
       }
       await formSchema.parseAsync(formValues)
@@ -46,14 +46,14 @@ export const StartupForm = () => {
           description: 'Please check your inputs and try again',
           variant: 'destructive',
         })
-        return { ...prevState, error: 'Validation failed', status: 'ERROR' }
+        return { error: 'Validation failed', status: 'ERROR' }
       }
       toast({
         title: 'Error',
         description: 'An unexpected error has occurred',
         variant: 'destructive',
       })
-      return { ...prevState, error: 'An unexpected error has occurred', status: 'ERROR' }
+      return { error: 'An unexpected error has occurred', status: 'ERROR' }
     }
   }
 
@@ -113,7 +113,6 @@ export const StartupForm = () => {
           id={'link'}
           name={'link'}
           className={'startup-form_input'}
-          required
           placeholder={'Paste a link to you demo or promotional media'}
         />
         {errors.link && <p className={'startup-form_error'}>{errors.link}</p>}
