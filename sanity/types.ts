@@ -175,7 +175,7 @@ export type Author = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  id?: number
+  id?: string
   name?: string
   username?: string
   email?: string

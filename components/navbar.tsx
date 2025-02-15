@@ -1,11 +1,9 @@
+import { SignInButton, SignUpButton, SignedIn, SignedOut } from '@clerk/nextjs'
 import { Link } from 'next-view-transitions'
 import Image from 'next/image'
-import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
-import { currentUser } from '@clerk/nextjs/server'
+import UserButtonClerk from './UserButtonClerk'
 
 export const Navbar = async () => {
-  const clerkUser = await currentUser()
-
   return (
     <header className={'px-5 py-3 bg-white shadow-xs font-work-sans'}>
       <nav className={'flex justify-between items-center'}>
@@ -19,10 +17,8 @@ export const Navbar = async () => {
             <SignUpButton />
           </SignedOut>
           <SignedIn>
-            <UserButton />
+            <UserButtonClerk />
           </SignedIn>
-
-          {clerkUser && <Link href="/startup/create">Create</Link>}
         </div>
       </nav>
     </header>

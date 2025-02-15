@@ -1,7 +1,7 @@
-import StartupCard, { StartupTypeCard } from '@/components/startup-card'
-import { STARTUP_QUERY } from '@/sanity/lib/queries'
-import { sanityFetch, SanityLive } from '@/sanity/lib/live'
 import { SearchForm } from '@/components/search-form'
+import StartupCard, { StartupTypeCard } from '@/components/startup-card'
+import { sanityFetch, SanityLive } from '@/sanity/lib/live'
+import { STARTUP_QUERY } from '@/sanity/lib/queries'
 
 export default async function Home({
   searchParams,
@@ -24,11 +24,12 @@ export default async function Home({
         </p>
         <SearchForm query={query} />
       </section>
-      <section className={'section_container'}>
-        <p className={'text-30-semibold'}>
+
+      <section className={'px-6 py-10 max-w-7xl mx-auto'}>
+        <p className={'font-semibold text-[30px] text-black'}>
           {query ? `Search results for ${query}` : 'All Startups'}
         </p>
-        <ul className={'mt-7 card_grid'}>
+        <ul className={'mt-7 grid md:grid-cols-3 sm:grid-cols-2 gap-5'}>
           {posts?.length > 0 ? (
             posts.map((post: StartupTypeCard) => <StartupCard key={post?._id} post={post} />)
           ) : (
@@ -36,6 +37,7 @@ export default async function Home({
           )}
         </ul>
       </section>
+
       <SanityLive />
     </>
   )

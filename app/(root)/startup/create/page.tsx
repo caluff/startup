@@ -3,10 +3,6 @@ import { useCurrentUser } from 'sanity'
 import { redirect } from 'next/navigation'
 
 const Page = async () => {
-  // const clerkUser = await useCurrentUser()
-
-  // if (!clerkUser) redirect('/')
-
   return (
     <>
       <section className={'pink_container min-h-[230px]!'}>
