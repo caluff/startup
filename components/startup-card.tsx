@@ -23,7 +23,7 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
 
       <Link
         href={`/user/${author?._id}`}
-        className="hover:opacity-90 hover:bg-primary/30 transition-all duration-300 rounded-md p-2 mt-2"
+        className="hover:opacity-90 hover:bg-primary/30 transition-all duration-300 rounded-xl p-2 mt-2"
       >
         <div className="flex items-center gap-4">
           <Image

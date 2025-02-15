@@ -36,8 +36,12 @@ export const StartupForm = () => {
         })
         router.push(`/startup/${result._id}`)
       }
+
+      console.log(result)
       return result
     } catch (error) {
+      console.log(error)
+
       if (error instanceof z.ZodError) {
         const fieldErrors = error.flatten().fieldErrors
         setErrors(fieldErrors as unknown as Record<string, string>)
@@ -61,38 +65,43 @@ export const StartupForm = () => {
     error: '',
     status: 'INITIAL',
   })
+
   return (
-    <form action={formAction} className={'startup-form'}>
+    <form action={formAction} className={'max-w-2xl mx-auto bg-white my-10 space-y-8 px-6'}>
       <div>
-        <label htmlFor={'title'} className={'startup-form_label'}>
+        <label htmlFor={'title'} className={'font-bold text-[18px] text-black uppercase'}>
           Title
         </label>
         <Input
           id={'title'}
           name={'title'}
-          className={'startup-form_input'}
+          className={
+            'border-[3px]! border-black! px-5! py-7! text-[18px]! text-black! font-semibold! rounded-full! mt-3! placeholder:text-black-300!'
+          }
           required
           placeholder={'Startup Title'}
         />
-        {errors.title && <p className={'startup-form_error'}>{errors.title}</p>}
+        {errors.title && <p className={'text-red-500 mt-2 ml-5'}>{errors.title}</p>}
       </div>
 
       <div>
-        <label htmlFor={'description'} className={'startup-form_label'}>
+        <label htmlFor={'description'} className={'font-bold text-[18px] text-black uppercase'}>
           Description
         </label>
         <Textarea
           id={'description'}
           name={'description'}
-          className={'startup-form_textarea'}
+          className={
+            'border-[3px]! border-black! p-5! text-[18px]! text-black! font-semibold! rounded-[20px]! mt-3! placeholder:text-black-300!'
+          }
           required
           placeholder={'Startup Description'}
         />
-        {errors.description && <p className={'startup-form_error'}>{errors.description}</p>}
+        {errors.description && <p className={'text-red-500 mt-2 ml-5'}>{errors.description}</p>}
       </div>
 
       <div>
-        <label htmlFor={'category'} className={'startup-form_label'}>
+        <label htmlFor={'category'} className={'font-bold text-[18px] text-black uppercase'}>
           Category
         </label>
         <Input
@@ -102,11 +111,11 @@ export const StartupForm = () => {
           required
           placeholder={'Startup Category (Tech, Health, Education...)'}
         />
-        {errors.category && <p className={'startup-form_error'}>{errors.category}</p>}
+        {errors.category && <p className={'text-red-500 mt-2 ml-5'}>{errors.category}</p>}
       </div>
 
       <div>
-        <label htmlFor={'link'} className={'startup-form_label'}>
+        <label htmlFor={'link'} className={'font-bold text-[18px] text-black uppercase'}>
           Image URL
         </label>
         <Input
@@ -115,11 +124,11 @@ export const StartupForm = () => {
           className={'startup-form_input'}
           placeholder={'Paste a link to you demo or promotional media'}
         />
-        {errors.link && <p className={'startup-form_error'}>{errors.link}</p>}
+        {errors.link && <p className={'text-red-500 mt-2 ml-5'}>{errors.link}</p>}
       </div>
 
       <div data-color-mode={'light'}>
-        <label htmlFor={'pitch'} className={'startup-form_label'}>
+        <label htmlFor={'pitch'} className={'font-bold text-[18px] text-black uppercase'}>
           Pitch
         </label>
         <MDEditor
@@ -132,9 +141,15 @@ export const StartupForm = () => {
           textareaProps={{ placeholder: 'Briefly describe your idea and what problem it solvers' }}
           previewOptions={{ disallowedElements: ['style'] }}
         />
-        {errors.pitch && <p className={'startup-form_error'}>{errors.pitch}</p>}
+        {errors.pitch && <p className={'text-red-500 mt-2 ml-5'}>{errors.pitch}</p>}
       </div>
-      <Button type={'submit'} disabled={isPending} className={'startup-form_btn text-white'}>
+      <Button
+        type={'submit'}
+        disabled={isPending}
+        className={
+          'bg-primary! border-[4px]! border-black! rounded-full! p-5! min-h-[70px]! w-full! font-bold! text-[18px]! text-white'
+        }
+      >
         {isPending ? 'Submitting...' : 'Submit your pitch'}
         <Send className={'size-6 ml-2'} />
       </Button>

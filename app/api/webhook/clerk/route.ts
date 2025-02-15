@@ -1,10 +1,10 @@
-import { Webhook } from 'svix'
-import { headers } from 'next/headers'
-import { type WebhookEvent } from '@clerk/nextjs/server'
-import { writeClient } from '@/sanity/lib/write-client'
 import { client } from '@/sanity/lib/client'
+import { writeClient } from '@/sanity/lib/write-client'
+import { type WebhookEvent } from '@clerk/nextjs/server'
+import { headers } from 'next/headers'
+import { Webhook } from 'svix'
 
-import { AUTHOR_BY_GITHUB_ID_QUERY } from '@/sanity/lib/queries'
+import { AUTHOR_BY_ID_QUERY } from '@/sanity/lib/queries'
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.CLERK_SIGNING_SECRET
@@ -59,11 +59,9 @@ export async function POST(req: Request) {
   if (evt.type === 'user.created') {
     console.log('userId:', evt.data.id)
 
-    const existingUser = await client
-      .withConfig({ useCdn: false })
-      .fetch(AUTHOR_BY_GITHUB_ID_QUERY, {
-        id: evt.data.id,
-      })
+    const existingUser = await client.withConfig({ useCdn: false }).fetch(AUTHOR_BY_ID_QUERY, {
+      id: evt.data.id,
+    })
 
     if (!existingUser) {
       await writeClient.create({

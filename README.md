@@ -1,49 +1,74 @@
-# Startup Directory
+# Startup Showcase
 
-A modern web application built with Next.js that serves as a comprehensive directory of startups. This platform allows users to explore, search, and discover information about various startups.
+A modern web platform for entrepreneurs to showcase their startup ideas and get feedback from the community. Built with Next.js 15, featuring server components, server actions, and view transitions.
 
-## Features
+## Core Features
 
-- Browse and search through startup listings
-- Detailed startup profiles with key information
-- Modern, responsive user interface
-- Built with Next.js and TypeScript for optimal performance
-- Content management powered by Sanity.io
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🚀 Create and showcase startup pitches with rich markdown content
+- 👥 User profiles and authentication via Clerk
+- 🔍 Real-time search and filtering of startups by category
+- 📊 View tracking for startup presentations
+- 💫 Smooth page transitions and modern UI animations
+- 📱 Fully responsive design with a mobile-first approach
 
 ## Tech Stack
 
-- [Next.js](https://nextjs.org) - React framework for production
-- [TypeScript](https://www.typescriptlang.org/) - For type-safe code
-- [Sanity.io](https://www.sanity.io/) - Headless CMS for content management
-- [Vercel](https://vercel.com) - Deployment platform
+- **Framework**: Next.js 15 (App Router)
+- **Database & CMS**: Sanity.io
+- **Authentication**: Clerk
+- **Styling**: Tailwind CSS
+- **Deployment**: Vercel
+- **Content**: MDEditor for rich pitch editing
 
-## Development
+## Running Locally
 
-You can start editing the content by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
 
-This project uses:
+```bash
+git clone https://github.com/yourusername/startup-showcase.git
+```
 
-- [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) with [Geist](https://vercel.com/font)
-- TypeScript for type safety
-- ESLint for code quality
+2. Install dependencies:
 
-## Deployment
+```bash
+npm install
+```
 
-The application is deployed on [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
+3. Copy `.env.example` to `.env.local` and update the variables:
+
+```bash
+cp .env.example .env.local
+```
+
+4. Start the development server:
+
+```bash
+npm run dev
+```
+
+5. nGrok:
+
+```bash
+npx ngrok http --url=ngrok-url 3000
+```
+
+## Environment Variables
+
+Required environment variables:
+
+- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+- `CLERK_SECRET_KEY`
+- `NEXT_PUBLIC_SANITY_PROJECT_ID`
+- `NEXT_PUBLIC_SANITY_DATASET`
+- `SANITY_API_TOKEN`
+
+## Project Structure
+
+- `app/*` - All app routes and API endpoints
+- `components/*` - Reusable UI components
+- `lib/*` - Utility functions and server actions
+- `sanity/*` - Sanity.io schema and configuration
+- `public/*` - Static assets
 
 ## Contributing
 

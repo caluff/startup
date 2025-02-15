@@ -7,7 +7,9 @@ export const SearchForm = ({ query }: { query?: string }) => {
   return (
     <Form action={'/'} scroll={false} className={'search-form'}>
       <input
-        className={'search-input'}
+        className={
+          'flex-1 font-bold placeholder:font-semibold placeholder:text-black-100 w-full h-auto outline-hidden'
+        }
         name={'query'}
         defaultValue={query}
         placeholder={'Search Startup'}
