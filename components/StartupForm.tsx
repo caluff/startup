@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast'
 import { createPitch } from '@/lib/actions'
 import { formSchema } from '@/lib/validation'
 import MDEditor from '@uiw/react-md-editor'
-import { Send, Upload } from 'lucide-react'
+import { Loader2, Send, Upload, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useActionState, useState } from 'react'
 import { z } from 'zod'
@@ -15,33 +15,56 @@ import { z } from 'zod'
 export const StartupForm = () => {
   const [pitch, setPitch] = useState('')
   const [imageUrl, setImageUrl] = useState('')
-  const [uploading, setUploading] = useState(false)
   const [poster, setPoster] = useState<File | undefined>(undefined)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    category: '',
+    link: '',
+  })
   const { toast } = useToast()
   const router = useRouter()
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    setPoster(file)
+    if (file) {
+      setPoster(file)
+      // Create a temporary URL for preview
+      const previewUrl = URL.createObjectURL(file)
+      setImageUrl(previewUrl)
+    }
   }
 
-  const handleFormSubmit = async (prevState: any, formData: FormData) => {
+  const handleRemoveImage = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    setImageUrl('')
+    setPoster(undefined)
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
+
+  const handleFormSubmit = async (prevState: any, formDataObj: FormData) => {
     let posterResponse = null
 
     try {
       if (poster) {
-        const formData = new FormData()
-        formData.append('file', poster as File)
+        const uploadFormData = new FormData()
+        uploadFormData.append('file', poster as File)
 
         const response = await fetch('/api/upload', {
           method: 'POST',
-          body: formData,
+          body: uploadFormData,
         })
 
         const result = await response.json()
         posterResponse = result.result
-        console.log(result)
       }
     } catch (error) {
       console.log(error)
@@ -49,14 +72,23 @@ export const StartupForm = () => {
 
     try {
       const formValues = {
-        title: formData.get('title') as string,
-        description: formData.get('description') as string,
-        category: formData.get('category') as string,
-        link: (formData.get('link') as string) ?? '',
+        title: formDataObj.get('title') as string,
+        description: formDataObj.get('description') as string,
+        category: formDataObj.get('category') as string,
+        link: (formDataObj.get('link') as string) ?? '',
         pitch,
       }
+
+      // Update form data state with current values
+      setFormData({
+        title: formValues.title,
+        description: formValues.description,
+        category: formValues.category,
+        link: formValues.link,
+      })
+
       await formSchema.parseAsync(formValues)
-      const result = await createPitch(prevState, formData, pitch, posterResponse)
+      const result = await createPitch(prevState, formDataObj, pitch, posterResponse)
       if (result.status === 'SUCCESS') {
         toast({
           title: 'Success',
@@ -94,123 +126,167 @@ export const StartupForm = () => {
   })
 
   return (
-    <form action={formAction} className={'max-w-2xl mx-auto bg-white my-10 space-y-8 px-6'}>
-      <div>
-        <label htmlFor={'title'} className={'font-bold text-[18px] text-black uppercase'}>
-          Title
-        </label>
-        <Input
-          id={'title'}
-          name={'title'}
-          className={
-            'border-[3px]! border-black! px-5! py-7! text-[18px]! text-black! font-semibold! rounded-full! mt-3! placeholder:text-black-300!'
-          }
-          required
-          placeholder={'Startup Title'}
-        />
-        {errors.title && <p className={'text-red-500 mt-2 ml-5'}>{errors.title}</p>}
+    <form
+      action={formAction}
+      className="max-w-6xl mx-auto bg-gradient-to-b from-white to-gray-50 my-16 rounded-3xl shadow-2xl p-12"
+    >
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold text-gray-900">Submit Your Startup Pitch</h1>
+        <p className="text-gray-600 mt-3 text-lg">Share your innovative idea with the world</p>
       </div>
 
-      <div>
-        <label htmlFor={'description'} className={'font-bold text-[18px] text-black uppercase'}>
-          Description
-        </label>
-        <Textarea
-          id={'description'}
-          name={'description'}
-          className={
-            'border-[3px]! border-black! p-5! text-[18px]! text-black! font-semibold! rounded-[20px]! mt-3! placeholder:text-black-300!'
-          }
-          required
-          placeholder={'Startup Description'}
-        />
-        {errors.description && <p className={'text-red-500 mt-2 ml-5'}>{errors.description}</p>}
-      </div>
-
-      <div>
-        <label htmlFor={'category'} className={'font-bold text-[18px] text-black uppercase'}>
-          Category
-        </label>
-        <Input
-          id={'category'}
-          name={'category'}
-          className={'startup-form_input'}
-          required
-          placeholder={'Startup Category (Tech, Health, Education...)'}
-        />
-        {errors.category && <p className={'text-red-500 mt-2 ml-5'}>{errors.category}</p>}
-      </div>
-
-      <div>
-        <label className={'font-bold text-[18px] text-black uppercase'}>Upload Image</label>
-        <div className="border-[3px] border-black rounded-[20px] mt-3 p-4">
-          <div className="relative">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="hidden"
-              id="image-upload"
-              disabled={uploading}
-            />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="space-y-8">
+          <div>
             <label
-              htmlFor="image-upload"
-              className="cursor-pointer block p-4 hover:bg-gray-50 transition-colors text-center"
+              htmlFor="title"
+              className="block text-base font-medium text-gray-700 uppercase tracking-wider mb-3"
             >
-              {imageUrl ? (
-                <div className="space-y-4">
-                  <img
-                    src={imageUrl}
-                    alt="Preview"
-                    className="max-w-full h-auto mx-auto rounded-lg"
-                  />
-                  <p className="text-sm text-gray-600">Click to change image</p>
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                  <p className="text-gray-600">Click to upload an image</p>
-                  <p className="text-sm text-gray-400">Supported formats: PNG, JPG, GIF</p>
-                </div>
-              )}
+              Title
             </label>
-            {uploading && (
-              <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
-                <p className="text-primary font-semibold">Uploading...</p>
-              </div>
+            <Input
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
+              className="w-full rounded-xl border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-lg py-6"
+              required
+              placeholder="Enter your startup name"
+            />
+            {errors.title && <p className="text-red-500 text-base mt-2">{errors.title}</p>}
+          </div>
+
+          <div>
+            <label
+              htmlFor="category"
+              className="block text-base font-medium text-gray-700 uppercase tracking-wider mb-3"
+            >
+              Category
+            </label>
+            <Input
+              id="category"
+              name="category"
+              value={formData.category}
+              onChange={handleInputChange}
+              className="w-full rounded-xl border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-lg py-6"
+              required
+              placeholder="e.g. Tech, Health, Education"
+            />
+            {errors.category && <p className="text-red-500 text-base mt-2">{errors.category}</p>}
+          </div>
+
+          <div>
+            <label
+              htmlFor="description"
+              className="block text-base font-medium text-gray-700 uppercase tracking-wider mb-3"
+            >
+              Description
+            </label>
+            <Textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+              className="w-full rounded-xl border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all min-h-[160px] text-lg"
+              required
+              placeholder="Brief overview of your startup"
+            />
+            {errors.description && (
+              <p className="text-red-500 text-base mt-2">{errors.description}</p>
             )}
           </div>
         </div>
-        {errors.link && <p className={'text-red-500 mt-2 ml-5'}>{errors.link}</p>}
+
+        <div className="space-y-8">
+          <div>
+            <label className="block text-base font-medium text-gray-700 uppercase tracking-wider mb-3">
+              Startup Image
+            </label>
+            <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 hover:border-primary transition-colors">
+              <div className="relative">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                  id="image-upload"
+                />
+                <label htmlFor="image-upload" className="cursor-pointer block text-center">
+                  {imageUrl ? (
+                    <div className="space-y-4">
+                      <div className="relative">
+                        <img
+                          src={imageUrl}
+                          alt="Preview"
+                          className="max-w-full h-auto mx-auto rounded-xl"
+                        />
+                        <button
+                          type="button"
+                          onClick={handleRemoveImage}
+                          className="absolute cursor-pointer -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <p className="text-base text-gray-500">Click to change image</p>
+                      <p className="text-sm text-gray-400">Selected: {poster?.name}</p>
+                    </div>
+                  ) : (
+                    <div className="py-12 space-y-4">
+                      <Upload className="mx-auto h-16 w-16 text-gray-400" />
+                      <p className="text-gray-600 font-medium text-lg">Click to upload an image</p>
+                      <p className="text-base text-gray-400">PNG, JPG, GIF up to 10MB</p>
+                    </div>
+                  )}
+                </label>
+              </div>
+            </div>
+            {errors.link && <p className="text-red-500 text-base mt-2">{errors.link}</p>}
+          </div>
+
+          <div data-color-mode="light">
+            <label
+              htmlFor="pitch"
+              className="block text-base font-medium text-gray-700 uppercase tracking-wider mb-3"
+            >
+              Detailed Pitch
+            </label>
+            <MDEditor
+              value={pitch}
+              onChange={(value) => setPitch(value as string)}
+              id="pitch"
+              preview="edit"
+              height={300}
+              className="rounded-xl overflow-hidden border-2 border-gray-300 focus-within:border-primary transition-colors"
+              textareaProps={{
+                placeholder: 'Describe your idea and the problem it solves...',
+              }}
+              previewOptions={{ disallowedElements: ['style'] }}
+            />
+            {errors.pitch && <p className="text-red-500 text-base mt-2">{errors.pitch}</p>}
+          </div>
+        </div>
       </div>
 
-      <div data-color-mode={'light'}>
-        <label htmlFor={'pitch'} className={'font-bold text-[18px] text-black uppercase'}>
-          Pitch
-        </label>
-        <MDEditor
-          value={pitch}
-          onChange={(value) => setPitch(value as string)}
-          id={'pitch'}
-          preview={'edit'}
-          height={300}
-          style={{ borderRadius: 20, overflow: 'hidden' }}
-          textareaProps={{ placeholder: 'Briefly describe your idea and what problem it solvers' }}
-          previewOptions={{ disallowedElements: ['style'] }}
-        />
-        {errors.pitch && <p className={'text-red-500 mt-2 ml-5'}>{errors.pitch}</p>}
+      <div className="mt-12">
+        <Button
+          type="submit"
+          disabled={isPending}
+          className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-6 rounded-xl transition-colors flex items-center justify-center gap-3 text-lg"
+        >
+          {isPending ? (
+            <>
+              <Loader2 className="w-6 h-6 animate-spin" />
+              Submitting...
+            </>
+          ) : (
+            <>
+              Submit Your Pitch
+              <Send className="w-6 h-6" />
+            </>
+          )}
+        </Button>
       </div>
-
-      <Button
-        type={'submit'}
-        disabled={isPending}
-        className={
-          'bg-primary! border-[4px]! border-black! rounded-full! p-5! min-h-[70px]! w-full! font-bold! text-[18px]! text-white'
-        }
-      >
-        {isPending ? 'Submitting...' : 'Submit your pitch'}
-        <Send className={'size-6 ml-2'} />
-      </Button>
     </form>
   )
 }

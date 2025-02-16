@@ -10,7 +10,6 @@ export type StartupTypeCard = Omit<Startup, 'author'> & { author?: Author }
 
 const StartupCard = ({ post }: { post: StartupTypeCard }) => {
   const { _createdAt, views, author, title, category, _id, poster, description } = post
-  console.log('🚀 ~ StartupCard ~ author:', author)
 
   return (
     <li className="bg-white border-[5px] border-black py-6 px-5 rounded-[22px] shadow-200 group transition-all duration-300 hover:scale-[1.02] flex flex-col h-full">
