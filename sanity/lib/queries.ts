@@ -7,8 +7,9 @@ export const STARTUP_QUERY =
     slug,
     _createdAt,
     author->{
-      _id, name, slug, image, bio
+      _id, id, name, slug, image, bio
     },
+      "poster": poster.asset->url,
     views,
     description,
     category,
@@ -21,8 +22,9 @@ export const STARTUP_BY_ID_QUERY = defineQuery(`*[_type=="startup" && _id==$id][
   slug,
   _createdAt,
   author->{
-    _id, name, image, bio, username
+    _id, id, name, image, bio, username
   },
+  "poster": poster.asset->url,
   views,
   description,
   category,
@@ -54,8 +56,9 @@ export const STARTUP_BY_AUTH_QUERY =
     slug,
     _createdAt,
     author->{
-      _id, name, slug, image, bio
+      _id, id, name, slug, image, bio
     },
+      "poster": poster.asset->url,
     views,
     description,
     category,
@@ -74,11 +77,13 @@ export const PLAYLIST_BY_SLUG_QUERY =
     slug,
     author->{
       _id,
+      id, 
       name,
       slug,
       image,
       bio
     },
+      "poster": poster.asset->url,
     views,
     description,
     category,

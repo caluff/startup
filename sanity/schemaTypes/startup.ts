@@ -39,6 +39,14 @@ export const startup = defineType({
       type: 'url',
     }),
     defineField({
+      name: 'poster',
+      type: 'image',
+      // 👇 Enables crop and hotspot tools
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
       name: 'pitch',
       type: 'markdown',
     }),

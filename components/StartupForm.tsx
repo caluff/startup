@@ -7,18 +7,46 @@ import { useToast } from '@/hooks/use-toast'
 import { createPitch } from '@/lib/actions'
 import { formSchema } from '@/lib/validation'
 import MDEditor from '@uiw/react-md-editor'
-import { Send } from 'lucide-react'
+import { Send, Upload } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useActionState, useState } from 'react'
 import { z } from 'zod'
 
 export const StartupForm = () => {
   const [pitch, setPitch] = useState('')
+  const [imageUrl, setImageUrl] = useState('')
+  const [uploading, setUploading] = useState(false)
+  const [poster, setPoster] = useState<File | undefined>(undefined)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const { toast } = useToast()
   const router = useRouter()
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    setPoster(file)
+  }
+
   const handleFormSubmit = async (prevState: any, formData: FormData) => {
+    let posterResponse = null
+
+    try {
+      if (poster) {
+        const formData = new FormData()
+        formData.append('file', poster as File)
+
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        })
+
+        const result = await response.json()
+        posterResponse = result.result
+        console.log(result)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
     try {
       const formValues = {
         title: formData.get('title') as string,
@@ -28,16 +56,15 @@ export const StartupForm = () => {
         pitch,
       }
       await formSchema.parseAsync(formValues)
-      const result = await createPitch(prevState, formData, pitch)
+      const result = await createPitch(prevState, formData, pitch, posterResponse)
       if (result.status === 'SUCCESS') {
         toast({
           title: 'Success',
-          description: 'You startup pitch has been created successfully',
+          description: 'Your startup pitch has been created successfully',
         })
         router.push(`/startup/${result._id}`)
       }
 
-      console.log(result)
       return result
     } catch (error) {
       console.log(error)
@@ -115,15 +142,45 @@ export const StartupForm = () => {
       </div>
 
       <div>
-        <label htmlFor={'link'} className={'font-bold text-[18px] text-black uppercase'}>
-          Image URL
-        </label>
-        <Input
-          id={'link'}
-          name={'link'}
-          className={'startup-form_input'}
-          placeholder={'Paste a link to you demo or promotional media'}
-        />
+        <label className={'font-bold text-[18px] text-black uppercase'}>Upload Image</label>
+        <div className="border-[3px] border-black rounded-[20px] mt-3 p-4">
+          <div className="relative">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+              id="image-upload"
+              disabled={uploading}
+            />
+            <label
+              htmlFor="image-upload"
+              className="cursor-pointer block p-4 hover:bg-gray-50 transition-colors text-center"
+            >
+              {imageUrl ? (
+                <div className="space-y-4">
+                  <img
+                    src={imageUrl}
+                    alt="Preview"
+                    className="max-w-full h-auto mx-auto rounded-lg"
+                  />
+                  <p className="text-sm text-gray-600">Click to change image</p>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                  <p className="text-gray-600">Click to upload an image</p>
+                  <p className="text-sm text-gray-400">Supported formats: PNG, JPG, GIF</p>
+                </div>
+              )}
+            </label>
+            {uploading && (
+              <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
+                <p className="text-primary font-semibold">Uploading...</p>
+              </div>
+            )}
+          </div>
+        </div>
         {errors.link && <p className={'text-red-500 mt-2 ml-5'}>{errors.link}</p>}
       </div>
 
@@ -143,6 +200,7 @@ export const StartupForm = () => {
         />
         {errors.pitch && <p className={'text-red-500 mt-2 ml-5'}>{errors.pitch}</p>}
       </div>
+
       <Button
         type={'submit'}
         disabled={isPending}

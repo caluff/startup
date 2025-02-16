@@ -18,5 +18,6 @@ export const formSchema = z.object({
       }
     })
     .optional(),
+  poster: z.any().optional(),
   pitch: z.string().min(10),
 })

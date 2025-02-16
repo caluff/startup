@@ -156,6 +156,7 @@ export type Startup = {
     _weak?: boolean
     [internalGroqTypeReferenceTo]?: 'author'
   }
+  poster?: string
   views?: number
   description?: string
   category?: string
