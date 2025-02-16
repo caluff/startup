@@ -4,6 +4,7 @@ import StartupCard, { StartupTypeCard } from '@/components/startup-card'
 
 export const UserStartups = async ({ id }: { id: string }) => {
   const startup = await client.fetch(STARTUP_BY_AUTH_QUERY, { id })
+
   return (
     <>
       {startup.length > 0 ? (

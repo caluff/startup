@@ -1,6 +1,4 @@
 import { StartupForm } from '@/components/StartupForm'
-import { useCurrentUser } from 'sanity'
-import { redirect } from 'next/navigation'
 
 const Page = async () => {
   return (

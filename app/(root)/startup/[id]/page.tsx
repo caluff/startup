@@ -22,6 +22,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   ])
   if (!post) notFound()
   const parsedContent = md.render(post?.pitch || '')
+  console.log(post.poster)
 
   return (
     <>
@@ -42,7 +43,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         {post.img && (
           <div className="max-w-4xl mx-auto bg-white/50 p-6 rounded-2xl shadow-lg">
             <img
-              src={post.image}
+              src={post.poster}
               alt={'thumbnail'}
               className="w-full h-[400px] rounded-xl object-contain transition-transform duration-300 hover:scale-[1.02]"
               style={{ viewTransitionName: `startup-image-${id}` }}

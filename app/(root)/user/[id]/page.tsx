@@ -49,7 +49,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <div className={'flex-1 flex flex-col gap-5 lg:-mt-5'}>
           <ul className={'grid sm:grid-cols-2 gap-5'}>
             <Suspense fallback={<StartupCardSkeleton />}>
-              <UserStartups id={id} />
+              <UserStartups id={user._id} />
             </Suspense>
           </ul>
         </div>

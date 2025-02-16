@@ -9,7 +9,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 export type StartupTypeCard = Omit<Startup, 'author'> & { author?: Author }
 
 const StartupCard = ({ post }: { post: StartupTypeCard }) => {
-  const { _createdAt, views, author, title, category, _id, image, description } = post
+  const { _createdAt, views, author, title, category, _id, poster, description } = post
+  console.log('🚀 ~ StartupCard ~ author:', author)
 
   return (
     <li className="bg-white border-[5px] border-black py-6 px-5 rounded-[22px] shadow-200 group transition-all duration-300 hover:scale-[1.02] flex flex-col h-full">
@@ -22,7 +23,7 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
       </div>
 
       <Link
-        href={`/user/${author?._id}`}
+        href={`/user/${author?.id}`}
         className="hover:opacity-90 hover:bg-primary/30 transition-all duration-300 rounded-xl p-2 mt-2"
       >
         <div className="flex items-center gap-4">
@@ -49,7 +50,7 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
           {description}
         </p>
         <img
-          src={image}
+          src={poster || post.image}
           alt="startup preview"
           style={{ viewTransitionName: `startup-image-${_id}` }}
           className="aspect-video w-full object-contain transition-transform duration-300 "
