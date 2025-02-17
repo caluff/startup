@@ -21,7 +21,10 @@ export const StartupForm = () => {
     title: '',
     description: '',
     category: '',
+    email: '',
+    phone: '',
     link: '',
+    website: '',
   })
   const { toast } = useToast()
   const router = useRouter()
@@ -75,7 +78,10 @@ export const StartupForm = () => {
         title: formDataObj.get('title') as string,
         description: formDataObj.get('description') as string,
         category: formDataObj.get('category') as string,
+        email: formDataObj.get('email') as string,
+        phone: formDataObj.get('phone') as string,
         link: (formDataObj.get('link') as string) ?? '',
+        website: (formDataObj.get('website') as string) ?? '',
         pitch,
       }
 
@@ -84,7 +90,10 @@ export const StartupForm = () => {
         title: formValues.title,
         description: formValues.description,
         category: formValues.category,
+        email: formValues.email,
+        phone: formValues.phone,
         link: formValues.link,
+        website: formValues.website,
       })
 
       await formSchema.parseAsync(formValues)
@@ -142,7 +151,7 @@ export const StartupForm = () => {
               htmlFor="title"
               className="block text-base font-medium text-gray-700 uppercase tracking-wider mb-3"
             >
-              Title
+              Name
             </label>
             <Input
               id="title"
@@ -154,6 +163,61 @@ export const StartupForm = () => {
               placeholder="Enter your startup name"
             />
             {errors.title && <p className="text-red-500 text-base mt-2">{errors.title}</p>}
+          </div>
+
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-base font-medium text-gray-700 uppercase tracking-wider mb-3"
+            >
+              Email Address
+            </label>
+            <Input
+              id="email"
+              name="email"
+              value={formData.title}
+              onChange={handleInputChange}
+              className="w-full rounded-xl border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-lg py-6"
+              required
+              placeholder="Enter the email to contact you"
+            />
+            {errors.email && <p className="text-red-500 text-base mt-2">{errors.email}</p>}
+          </div>
+
+          <div>
+            <label
+              htmlFor="phone"
+              className="block text-base font-medium text-gray-700 uppercase tracking-wider mb-3"
+            >
+              Phone Number
+            </label>
+            <Input
+              id="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleInputChange}
+              className="w-full rounded-xl border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-lg py-6"
+              placeholder="Enter your phone number (optional)"
+            />
+            {errors.phone && <p className="text-red-500 text-base mt-2">{errors.phone}</p>}
+          </div>
+
+          <div>
+            <label
+              htmlFor="website"
+              className="block text-base font-medium text-gray-700 uppercase tracking-wider mb-3"
+            >
+              Website
+            </label>
+            <Input
+              id="website"
+              name="website"
+              value={formData.website}
+              onChange={handleInputChange}
+              className="w-full rounded-xl border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-lg py-6"
+              placeholder="Enter your website URL (optional)"
+            />
+            {errors.website && <p className="text-red-500 text-base mt-2">{errors.website}</p>}
           </div>
 
           <div>

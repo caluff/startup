@@ -20,4 +20,7 @@ export const formSchema = z.object({
     .optional(),
   poster: z.any().optional(),
   pitch: z.string().min(10),
+  phone: z.string().optional(),
+  website: z.string().optional(),
+  email: z.string().email(),
 })

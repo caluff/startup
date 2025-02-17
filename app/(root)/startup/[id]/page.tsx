@@ -1,16 +1,14 @@
-import { PLAYLIST_BY_SLUG_QUERY, STARTUP_BY_ID_QUERY } from '@/sanity/lib/queries'
-import { client } from '@/sanity/lib/client'
-import { notFound } from 'next/navigation'
-import { formatDate } from '@/lib/utils'
-import { Link } from 'next-view-transitions'
-import Image from 'next/image'
-import markdownit from 'markdown-it'
-import { Suspense } from 'react'
+import MdContentBlock from '@/components/markdown-content'
+import StartupCard, { StartupTypeCard } from '@/components/startup-card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { View } from '@/components/view'
-import StartupCard, { StartupTypeCard } from '@/components/startup-card'
-
-const md = markdownit()
+import { formatDate } from '@/lib/utils'
+import { client } from '@/sanity/lib/client'
+import { PLAYLIST_BY_SLUG_QUERY, STARTUP_BY_ID_QUERY } from '@/sanity/lib/queries'
+import { Link } from 'next-view-transitions'
+import Image from 'next/image'
+import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id
@@ -21,8 +19,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     }),
   ])
   if (!post) notFound()
-  const parsedContent = md.render(post?.pitch || '')
-  console.log(post.poster)
 
   return (
     <>
@@ -80,13 +76,13 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
           <div className="bg-white/50 p-8 rounded-2xl">
             <h3 className="text-36-bold mb-6">Pitch Details</h3>
-            {parsedContent ? (
-              <article
-                className="prose max-w-4xl font-work-sans break-all prose-headings:font-bold prose-p:text-lg prose-a:text-primary"
-                dangerouslySetInnerHTML={{ __html: parsedContent }}
-              />
+
+            {post?.pitch ? (
+              <MdContentBlock content={post?.pitch} />
             ) : (
-              <p className="no-result">No details provided</p>
+              <p className="text-gray-500 text-lg italic">
+                No pitch details have been provided yet
+              </p>
             )}
           </div>
         </div>

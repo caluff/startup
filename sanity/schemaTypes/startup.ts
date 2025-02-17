@@ -30,12 +30,27 @@ export const startup = defineType({
       type: 'text',
     }),
     defineField({
+      name: 'email',
+      type: 'string',
+      validation: (Rule) => Rule.email().required().error('Please enter a valid email'),
+    }),
+    defineField({
       name: 'category',
       type: 'string',
       validation: (Rule) => Rule.min(1).max(20).required().error('Please enter a category'),
     }),
     defineField({
       name: 'image',
+      type: 'url',
+    }),
+    defineField({
+      name: 'phone',
+      type: 'string',
+      validation: (Rule) =>
+        Rule.min(10).max(15).required().error('Please enter a valid phone number'),
+    }),
+    defineField({
+      name: 'website',
       type: 'url',
     }),
     defineField({
