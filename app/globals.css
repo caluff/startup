@@ -4,32 +4,54 @@ layer(base);
 @import 'tailwindcss';
 
 @custom-variant dark (&:is(.dark *));
-
 @theme {
   --breakpoint-xs: 475px;
 
-  --color-primary-100: #ffe8f0;
-  --color-primary: #ee2b69;
+  /* Primary palette - warm teal for a professional yet inviting feel */
+  --color-primary-100: #e6f2f0;
+  --color-primary: #3bab9d;
 
-  --color-secondary: #fbe843;
+  /* Secondary/accent - complementary amber for balanced contrast */
+  --color-secondary: #f5a623;
+  --color-accent: #f7b955;
 
-  --color-black-100: #333333;
-  --color-black-200: #141413;
-  --color-black-300: #7d8087;
-  --color-black: #000000;
+  /* Monochrome palette - soft charcoal for easier reading */
+  --color-black-100: #4a4a4a;
+  --color-black-200: #202022;
+  --color-black-300: #6d7078;
+  --color-black: #121212;
 
-  --color-white-100: #f7f7f7;
+  /* Whites - subtle off-white for reduced eye strain */
+  --color-white-100: #f9f9f9;
   --color-white: #ffffff;
 
+  /* Base colors */
+  --color-background: #fcfcfc;
+  --color-foreground: #363636;
+
+  /* Keep font */
   --font-work-sans: var(--font-work-sans);
 
+  /* Softer radius for modern feel */
+  --radius: 10px;
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-  --shadow-100: 2px 2px 0px 0px rgb(0, 0, 0);
-  --shadow-200: 2px 2px 0px 2px rgb(0, 0, 0);
-  --shadow-300: 2px 2px 0px 2px rgb(238, 43, 105);
+  /* Refined shadows with opacity */
+  --shadow-100: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-200: 0 6px 12px rgba(0, 0, 0, 0.12);
+  --shadow-300: 0 4px 10px rgba(59, 171, 157, 0.25);
+
+  /* Sidebar refinements - cooler neutral palette */
+  --sidebar-background: 180 20% 98%;
+  --sidebar-foreground: 200 14% 28%;
+  --sidebar-primary: 190 60% 40%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 185 30% 95%;
+  --sidebar-accent-foreground: 190 60% 25%;
+  --sidebar-border: 185 10% 92%;
+  --sidebar-ring: 190 70% 60%;
 }
 
 /*
@@ -102,15 +124,6 @@ layer(base);
   @apply size-[50px]! rounded-full! bg-black! flex! justify-center! items-center!;
 }
 
-@utility view-container {
-  /* view */
-  @apply flex justify-end items-center mt-5 fixed bottom-3 left-3;
-}
-
-@utility view-text {
-  @apply font-medium text-[16px] bg-primary-100 px-4 py-2 rounded-lg capitalize;
-}
-
 @utility pattern {
   background-image: linear-gradient(
     to right,
@@ -126,4 +139,9 @@ layer(base);
 
 .w-md-editor-toolbar {
   padding: 10px !important;
+}
+
+.cl-avatarBox {
+  width: 2.75rem;
+  height: 2.75rem;
 }

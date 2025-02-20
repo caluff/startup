@@ -1,7 +1,7 @@
 import { SignInButton, SignUpButton, SignedIn, SignedOut } from '@clerk/nextjs'
 import { Link } from 'next-view-transitions'
 import Image from 'next/image'
-import UserButtonClerk from './UserButtonClerk'
+import { SidebarTrigger } from '../ui/sidebar'
 
 export const Navbar = async () => {
   return (
@@ -15,9 +15,11 @@ export const Navbar = async () => {
           <SignedOut>
             <SignInButton />
             <SignUpButton />
+            <SidebarTrigger />
           </SignedOut>
+
           <SignedIn>
-            <UserButtonClerk />
+            <SidebarTrigger />
           </SignedIn>
         </div>
       </nav>

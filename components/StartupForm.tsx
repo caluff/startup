@@ -17,15 +17,6 @@ export const StartupForm = () => {
   const [imageUrl, setImageUrl] = useState('')
   const [poster, setPoster] = useState<File | undefined>(undefined)
   const [errors, setErrors] = useState<Record<string, string>>({})
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    category: '',
-    email: '',
-    phone: '',
-    link: '',
-    website: '',
-  })
   const { toast } = useToast()
   const router = useRouter()
 
@@ -33,7 +24,6 @@ export const StartupForm = () => {
     const file = e.target.files?.[0]
     if (file) {
       setPoster(file)
-      // Create a temporary URL for preview
       const previewUrl = URL.createObjectURL(file)
       setImageUrl(previewUrl)
     }
@@ -43,14 +33,6 @@ export const StartupForm = () => {
     e.preventDefault()
     setImageUrl('')
     setPoster(undefined)
-  }
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
   }
 
   const handleFormSubmit = async (prevState: any, formDataObj: FormData) => {
@@ -85,17 +67,6 @@ export const StartupForm = () => {
         pitch,
       }
 
-      // Update form data state with current values
-      setFormData({
-        title: formValues.title,
-        description: formValues.description,
-        category: formValues.category,
-        email: formValues.email,
-        phone: formValues.phone,
-        link: formValues.link,
-        website: formValues.website,
-      })
-
       await formSchema.parseAsync(formValues)
       const result = await createPitch(prevState, formDataObj, pitch, posterResponse)
       if (result.status === 'SUCCESS') {
@@ -125,7 +96,10 @@ export const StartupForm = () => {
         description: 'An unexpected error has occurred',
         variant: 'destructive',
       })
-      return { error: 'An unexpected error has occurred', status: 'ERROR' }
+      return {
+        error: 'An unexpected error has occurred',
+        status: 'ERROR',
+      }
     }
   }
 
@@ -156,8 +130,6 @@ export const StartupForm = () => {
             <Input
               id="title"
               name="title"
-              value={formData.title}
-              onChange={handleInputChange}
               className="w-full rounded-xl border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-lg py-6"
               required
               placeholder="Enter your startup name"
@@ -175,8 +147,6 @@ export const StartupForm = () => {
             <Input
               id="email"
               name="email"
-              value={formData.title}
-              onChange={handleInputChange}
               className="w-full rounded-xl border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-lg py-6"
               required
               placeholder="Enter the email to contact you"
@@ -194,8 +164,6 @@ export const StartupForm = () => {
             <Input
               id="phone"
               name="phone"
-              value={formData.phone}
-              onChange={handleInputChange}
               className="w-full rounded-xl border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-lg py-6"
               placeholder="Enter your phone number (optional)"
             />
@@ -212,8 +180,6 @@ export const StartupForm = () => {
             <Input
               id="website"
               name="website"
-              value={formData.website}
-              onChange={handleInputChange}
               className="w-full rounded-xl border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-lg py-6"
               placeholder="Enter your website URL (optional)"
             />
@@ -230,8 +196,6 @@ export const StartupForm = () => {
             <Input
               id="category"
               name="category"
-              value={formData.category}
-              onChange={handleInputChange}
               className="w-full rounded-xl border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-lg py-6"
               required
               placeholder="e.g. Tech, Health, Education"
@@ -249,8 +213,6 @@ export const StartupForm = () => {
             <Textarea
               id="description"
               name="description"
-              value={formData.description}
-              onChange={handleInputChange}
               className="w-full rounded-xl border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all min-h-[160px] text-lg"
               required
               placeholder="Brief overview of your startup"
@@ -320,7 +282,7 @@ export const StartupForm = () => {
               onChange={(value) => setPitch(value as string)}
               id="pitch"
               preview="edit"
-              height={300}
+              height={400}
               className="rounded-xl overflow-hidden border-2 border-gray-300 focus-within:border-primary transition-colors"
               textareaProps={{
                 placeholder: 'Describe your idea and the problem it solves...',
