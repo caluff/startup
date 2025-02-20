@@ -15,7 +15,7 @@ export const AUTHOR_BY_ID_QUERY = defineQuery(`
 
 // Startup Queries
 export const STARTUP_QUERY =
-  defineQuery(`*[_type=="startup" && defined(slug.current) && !defined($search) || title match $search || category match $search || author->name match $search] | order(_createdAt desc){
+  defineQuery(`*[_type=="startup" && defined(slug.current) && (!defined($search) || (title match $search && (!defined($category) || category == $category))) && (!defined($category) || category == $category)] | order(_createdAt desc){
   _id,
     title,
     slug,

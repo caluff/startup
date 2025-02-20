@@ -19,7 +19,7 @@ export default async function Home({
           Pitch Your Startup, <br />
           Connect With Entrepreneurs
         </h1>
-        <p className={'sub-heading max-w-3xl!'}>
+        <p className={'font-medium text-[20px] text-white  text-center break-words max-w-3xl!'}>
           Submit Ideas, Vote on Pitches, and Get Noticed in Virtual Competitions.
         </p>
       </section>
@@ -32,7 +32,7 @@ export default async function Home({
           {posts?.length > 0 ? (
             posts.map((post: StartupTypeCard) => <StartupCard key={post?._id} post={post} />)
           ) : (
-            <p className={'no-results'}>No startups found</p>
+            <p className={'text-black-100 text-sm font-normal'}>No startups found</p>
           )}
         </ul>
       </section>

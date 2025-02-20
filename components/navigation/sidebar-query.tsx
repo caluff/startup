@@ -1,6 +1,6 @@
 import { SidebarGroup, SidebarGroupContent, SidebarHeader } from '@/components/ui/sidebar'
-import { FiltersModal } from '../filters-module'
-import SearchModule from '../search-module'
+import { FiltersModal } from '../queries/filters-module'
+import SearchModule from '../queries/search-module'
 
 export function SidebarSearch() {
   return (

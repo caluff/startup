@@ -1,9 +1,8 @@
 'use client'
 import { Search, X } from 'lucide-react'
-import { useQueryState } from 'nuqs'
-import { Button } from './ui/button'
-import { Input } from './ui/input'
 import { useProductParams } from '@/hooks/useProductParams'
+import { Input } from '../ui/input'
+import { Button } from '../ui/button'
 
 function SearchModule() {
   const { query, setQuery } = useProductParams()

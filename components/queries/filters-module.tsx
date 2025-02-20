@@ -1,6 +1,6 @@
 'use client'
 
-import { Filter } from 'lucide-react'
+import { Filter, X } from 'lucide-react'
 import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -38,6 +38,7 @@ import { cn } from '@/lib/utils'
 export function FiltersModal() {
   const [open, setOpen] = React.useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
+  const { category } = useProductParams()
 
   if (isDesktop) {
     return (
@@ -48,7 +49,7 @@ export function FiltersModal() {
             className="flex cursor-pointer items-center gap-2 rounded-sm hover:bg-gray-100 transition-colors"
           >
             <Filter className="h-4 w-4" />
-            Filters
+            Filters {category && `*`}
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
@@ -76,7 +77,7 @@ export function FiltersModal() {
           className="flex cursor-pointer items-center gap-2 rounded-sm hover:bg-gray-100 transition-colors"
         >
           <Filter className="h-4 w-4" />
-          Filters
+          Filters {category && `*`}
         </Button>
       </DrawerTrigger>
       <DrawerContent>
@@ -103,11 +104,12 @@ function FilterForm({ className }: React.ComponentProps<'div'>) {
   }
 
   const categories = [
-    { label: 'Technology', value: 'technology' },
-    { label: 'Healthcare', value: 'healthcare' },
-    { label: 'Finance', value: 'finance' },
-    { label: 'Education', value: 'education' },
-    { label: 'Retail', value: 'retail' },
+    { label: 'Web Development', value: 'Web Development' },
+    { label: 'Tech', value: 'Tech' },
+    { label: 'Healthcare', value: 'Healthcare' },
+    { label: 'Finance', value: 'Finance' },
+    { label: 'Education', value: 'Education' },
+    { label: 'Retail', value: 'Retail' },
   ]
 
   return (
@@ -132,6 +134,21 @@ function FilterForm({ className }: React.ComponentProps<'div'>) {
               ))}
             </SelectContent>
           </Select>
+
+          {category && (
+            <Button
+              type="button"
+              onClick={() => {
+                setCategory('')
+              }}
+              variant="ghost"
+              size="icon"
+              className="h-10 w-10 cursor-pointer"
+            >
+              <X className="h-4 w-4" />
+              <span className="sr-only">Clear category</span>
+            </Button>
+          )}
         </div>
       </div>
     </div>
