@@ -23,23 +23,23 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   if (!post) notFound()
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-primary-100 to-background">
       <section className="relative py-12 sm:py-16 md:py-20 overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6 text-center relative z-10">
-          <span className="inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-pink-100 text-pink-800 rounded-full text-xs sm:text-sm font-semibold tracking-wide mb-4 sm:mb-6 animate-fade-in">
+          <span className="inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-100 text-primary rounded-full text-xs sm:text-sm font-semibold tracking-wide mb-4 sm:mb-6 animate-fade-in">
             {formatDate(post?._createdAt)}
           </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-black-200 mb-4 sm:mb-6 leading-tight">
             {post.title}
           </h1>
-          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-2 sm:px-0">
+          <p className="text-lg sm:text-xl text-black-300 max-w-3xl mx-auto leading-relaxed px-2 sm:px-0">
             {post.description}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-6">
             {post.email && (
               <a
                 href={`mailto:${post.email}`}
-                className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-pink-100 text-pink-800 rounded-full text-xs sm:text-sm font-medium hover:bg-pink-200 transition-colors"
+                className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-100 text-primary rounded-full text-xs sm:text-sm font-medium hover:bg-primary/10 transition-colors"
               >
                 <MailIcon className="h-3.5 sm:h-4 w-3.5 sm:w-4" />
                 {post.email}
@@ -48,7 +48,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             {post.phone && (
               <a
                 href={`callto:${post.phone}`}
-                className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-pink-100 text-pink-800 rounded-full text-xs sm:text-sm font-medium hover:bg-pink-200 transition-colors"
+                className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-100 text-primary rounded-full text-xs sm:text-sm font-medium hover:bg-primary/10 transition-colors"
               >
                 <PhoneIcon className="h-3.5 sm:h-4 w-3.5 sm:w-4" />
                 {post.phone}
@@ -59,7 +59,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                 href={post.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-pink-100 text-pink-800 rounded-full text-xs sm:text-sm font-medium hover:bg-pink-200 transition-colors"
+                className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-100 text-primary rounded-full text-xs sm:text-sm font-medium hover:bg-primary/10 transition-colors"
               >
                 <GlobeIcon className="h-3.5 sm:h-4 w-3.5 sm:w-4" />
                 Visit Website
@@ -71,7 +71,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
       <section className="container mx-auto px-4">
         {(post.poster || post.image) && (
-          <div className="max-w-4xl mx-auto bg-white/50 p-6 rounded-2xl shadow-lg">
+          <div className="max-w-4xl mx-auto bg-background/50 p-6 rounded-2xl shadow-lg">
             <img
               src={post.poster ? post.poster : post.image}
               alt={'thumbnail'}
@@ -82,7 +82,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         )}
 
         <div className="max-w-4xl mx-auto mt-16">
-          <div className="bg-white rounded-2xl shadow-xl p-8 mb-12">
+          <div className="bg-background rounded-2xl shadow-xl p-8 mb-12">
             <div className="prose prose-lg max-w-none">
               {post?.pitch ? (
                 <MdContentBlock content={post?.pitch} />

@@ -1,9 +1,12 @@
+import { AppSidebar } from '@/components/navigation/AppSidebar'
+import { SidebarProvider } from '@/components/ui/sidebar'
 import { Toaster } from '@/components/ui/toaster'
 import { ClerkProvider } from '@clerk/nextjs'
 import 'easymde/dist/easymde.min.css'
 import type { Metadata } from 'next'
 import { ViewTransitions } from 'next-view-transitions'
 import localFont from 'next/font/local'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import React from 'react'
 import './globals.css'
 
@@ -58,14 +61,22 @@ export const metadata: Metadata = {
   description: 'Pitch, Vote and Grow',
 }
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ViewTransitions>
       <ClerkProvider>
-        <html lang="en">
-          <body className={workSans.variable}>
-            {children}
-            <Toaster />
+        <html lang="en" className={workSans.variable}>
+          <head>
+            {/* <script crossOrigin="anonymous" src="//unpkg.com/react-scan/dist/auto.global.js" /> */}
+          </head>
+          <body>
+            <NuqsAdapter>
+              <SidebarProvider>
+                <AppSidebar />
+                <main className="w-full flex-1">{children}</main>
+              </SidebarProvider>
+              <Toaster />
+            </NuqsAdapter>
           </body>
         </html>
       </ClerkProvider>

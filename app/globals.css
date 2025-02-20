@@ -4,32 +4,45 @@ layer(base);
 @import 'tailwindcss';
 
 @custom-variant dark (&:is(.dark *));
-
 @theme {
   --breakpoint-xs: 475px;
 
-  --color-primary-100: #ffe8f0;
-  --color-primary: #ee2b69;
+  --color-primary-100: #fbecf2;
+  --color-primary: #d62b71;
 
-  --color-secondary: #fbe843;
+  --color-secondary: #26b3a4;
+  --color-accent: #b98ee6;
 
-  --color-black-100: #333333;
-  --color-black-200: #141413;
-  --color-black-300: #7d8087;
-  --color-black: #000000;
+  --color-black-100: #4a4a4a;
+  --color-black-200: #202022;
+  --color-black-300: #6d7078;
+  --color-black: #121212;
 
-  --color-white-100: #f7f7f7;
+  --color-white-100: #f9f9f9;
   --color-white: #ffffff;
+
+  --color-background: #fcfcfc;
+  --color-foreground: #363636;
 
   --font-work-sans: var(--font-work-sans);
 
+  --radius: 10px;
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-  --shadow-100: 2px 2px 0px 0px rgb(0, 0, 0);
-  --shadow-200: 2px 2px 0px 2px rgb(0, 0, 0);
-  --shadow-300: 2px 2px 0px 2px rgb(238, 43, 105);
+  --shadow-100: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-200: 0 6px 12px rgba(0, 0, 0, 0.12);
+  --shadow-300: 0 4px 10px rgba(214, 43, 113, 0.25);
+
+  --sidebar-background: 340 20% 98%;
+  --sidebar-foreground: 335 14% 28%;
+  --sidebar-primary: 335 60% 40%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 340 30% 95%;
+  --sidebar-accent-foreground: 335 60% 25%;
+  --sidebar-border: 340 10% 92%;
+  --sidebar-ring: 335 70% 60%;
 }
 
 /*
@@ -76,41 +89,6 @@ layer(base);
   @apply uppercase bg-black px-6 py-3 font-work-sans font-extrabold text-white sm:text-[54px] sm:leading-[64px] text-[36px] leading-[46px] max-w-5xl text-center my-5;
 }
 
-@utility sub-heading {
-  @apply font-medium text-[20px] text-white max-w-2xl text-center break-words;
-}
-
-@utility no-result {
-  @apply text-black-100 text-sm font-normal;
-}
-
-@utility divider {
-  /* idea details */
-  @apply border-dotted bg-zinc-400 max-w-4xl my-10 mx-auto;
-}
-
-@utility view_skeleton {
-  @apply bg-zinc-400 h-10 w-24 rounded-lg fixed bottom-3 right-3;
-}
-
-@utility search-form {
-  /* searchform */
-  @apply max-w-3xl w-full min-h-[80px] bg-white border-[5px] border-black rounded-[80px] text-[24px] mt-8 px-5 flex flex-row items-center gap-5;
-}
-
-@utility search-btn {
-  @apply size-[50px]! rounded-full! bg-black! flex! justify-center! items-center!;
-}
-
-@utility view-container {
-  /* view */
-  @apply flex justify-end items-center mt-5 fixed bottom-3 left-3;
-}
-
-@utility view-text {
-  @apply font-medium text-[16px] bg-primary-100 px-4 py-2 rounded-lg capitalize;
-}
-
 @utility pattern {
   background-image: linear-gradient(
     to right,
@@ -126,4 +104,9 @@ layer(base);
 
 .w-md-editor-toolbar {
   padding: 10px !important;
+}
+
+.cl-avatarBox {
+  width: 2.75rem;
+  height: 2.75rem;
 }

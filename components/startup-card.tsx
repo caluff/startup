@@ -13,8 +13,7 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
   const { _createdAt, views, author, title, category, _id, poster, image, description } = post
 
   return (
-    <li className="group relative overflow-hidden bg-white rounded-3xl border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300">
-      {/* Image Section */}
+    <li className="group relative overflow-hidden bg-background rounded-3xl border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300">
       <div className="relative h-64 overflow-hidden">
         <img
           src={poster ? poster : image}
@@ -24,26 +23,22 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
 
-        {/* Category Tag */}
         <Link
-          href={`/?query=${category?.toLowerCase()}`}
-          className="absolute top-4 left-4 px-4 py-1.5 bg-white/90 backdrop-blur-sm rounded-full text-sm font-medium hover:bg-white transition-colors"
+          href={`/?category=${category?.toString()}`}
+          className="absolute top-4 left-4 px-4 py-1.5 bg-background/90 backdrop-blur-sm rounded-full text-sm font-medium hover:bg-background transition-colors"
         >
           {category}
         </Link>
 
-        {/* Views Counter */}
-        <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 bg-white/90 backdrop-blur-sm rounded-full">
+        <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 bg-background/90 backdrop-blur-sm rounded-full">
           <EyeIcon className="size-4 text-gray-700" />
           <span className="text-sm font-medium text-gray-700">{views}</span>
         </div>
       </div>
 
-      {/* Content Section */}
       <div className="p-6">
         <h3 className="text-xl font-semibold tracking-tight line-clamp-1 mb-4">{title}</h3>
 
-        {/* Author Section */}
         <Link href={`/user/${author?.id}`} className="flex items-center gap-3 mb-6 group/author">
           <div className="relative">
             <Image
@@ -61,7 +56,6 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
           </div>
         </Link>
 
-        {/* Action Button */}
         <Button
           className="w-full bg-gray-900 hover:bg-gray-800 text-white rounded-xl py-6 font-medium group/button"
           asChild

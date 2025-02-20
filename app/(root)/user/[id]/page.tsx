@@ -24,7 +24,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           }
         >
           <div
-            className={`w-11/12 bg-white border-[5px] border-black rounded-[20px] px-5 py-3 absolute -top-9 
+            className={`w-11/12 bg-background border-[5px] border-black rounded-[20px] px-5 py-3 absolute -top-9 
               after:absolute after:content-[''] after:-top-1 after:right-0 after:-skew-y-6 after:bg-black after:-z-1 
               after:rounded-[20px] after:w-full after:h-[60px] before:absolute before:content-[''] before:-bottom-1 
               before:left-0  before:-skew-y-6 before:w-full before:h-[60px] before:bg-black  before:-z-1 before:rounded-[20px] 
