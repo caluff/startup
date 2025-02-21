@@ -19,22 +19,22 @@ export default async function Home({
           Pitch Your Startup, <br />
           Connect With Entrepreneurs
         </h1>
-        <p className={'font-medium text-[20px] text-white  text-center break-words max-w-3xl!'}>
+        <p className="text-lg text-white/90 max-w-2xl mx-auto">
           Submit Ideas, Vote on Pitches, and Get Noticed in Virtual Competitions.
         </p>
       </section>
 
-      <section className={'px-6 py-10 max-w-7xl mx-auto'}>
-        <p className={'font-semibold text-[30px] text-black'}>
+      <section className="container px-4 py-10">
+        <h2 className="text-2xl font-semibold mb-8">
           {query ? `Search results for ${query}` : 'All Startups'}
-        </p>
-        <ul className={'mt-7 grid md:grid-cols-3 sm:grid-cols-2 gap-5'}>
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-[1200px]">
           {posts?.length > 0 ? (
             posts.map((post: StartupTypeCard) => <StartupCard key={post?._id} post={post} />)
           ) : (
-            <p className={'text-black-100 text-sm font-normal'}>No startups found</p>
+            <p className="text-gray-500">No startups found</p>
           )}
-        </ul>
+        </div>
       </section>
 
       <SanityLive />
