@@ -38,7 +38,7 @@
     "html-react-parser": "^5.2.2",
     "lucide-react": "^0.475.0",
     "marked": "^15.0.7",
-    "next": "15.1.7",
+    "next": "15.1.11",
     "next-sanity": "9.8.57",
     "next-view-transitions": "^0.3.4",
     "nuqs": "^2.4.0",
