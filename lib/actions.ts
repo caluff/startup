@@ -2,7 +2,7 @@
 
 import { getCurrentAuthor } from '@/lib/auth'
 import { parseServerActionResponse } from '@/lib/utils'
-import { writeClient } from '@/sanity/lib/write-client'
+import { assertWriteToken, writeClient } from '@/sanity/lib/write-client'
 import slugify from 'slugify'
 
 type UploadedPoster = {
@@ -15,6 +15,8 @@ export const createPitch = async (
   pitch: string,
   poster: UploadedPoster | null
 ) => {
+  assertWriteToken()
+
   const { title, description, category, link, email, phone, website } = Object.fromEntries(
     Array.from(form).filter(([key]) => key !== 'pitch')
   )

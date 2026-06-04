@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { getCurrentAuthor } from '@/lib/auth'
-import { signOutAction } from '@/lib/auth-actions'
+import { signOutAction } from '@/lib/session-actions'
 import { Link } from 'next-view-transitions'
 import Image from 'next/image'
 import { SidebarTrigger } from '../ui/sidebar'

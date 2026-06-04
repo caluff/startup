@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/sidebar'
 import { SidebarSearch } from '@/components/navigation/sidebar-query'
 import { getCurrentAuthor } from '@/lib/auth'
-import { signOutAction } from '@/lib/auth-actions'
+import { signOutAction } from '@/lib/session-actions'
 import { Button } from '@/components/ui/button'
 
 // Menu items.

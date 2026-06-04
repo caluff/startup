@@ -1,9 +1,9 @@
 'use server'
 
-import { clearSession, createSession, hashPassword, verifyPassword } from '@/lib/auth'
+import { createSession, hashPassword, verifyPassword } from '@/lib/auth'
 import { client } from '@/sanity/lib/client'
 import { AUTHOR_AUTH_BY_EMAIL_QUERY } from '@/sanity/lib/queries'
-import { writeClient } from '@/sanity/lib/write-client'
+import { assertWriteToken, writeClient } from '@/sanity/lib/write-client'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
@@ -25,6 +25,8 @@ const getUsername = (email: string, username?: string) =>
   (username?.trim() || email.split('@')[0] || '').replace(/\s+/g, '').toLowerCase()
 
 export async function signUpAction(formData: FormData) {
+  assertWriteToken()
+
   const parsed = signUpSchema.safeParse(Object.fromEntries(formData))
 
   if (!parsed.success) {
@@ -78,9 +80,4 @@ export async function signInAction(formData: FormData) {
 
   await createSession(author._id)
   redirect('/startup/create')
-}
-
-export async function signOutAction() {
-  await clearSession()
-  redirect('/')
 }

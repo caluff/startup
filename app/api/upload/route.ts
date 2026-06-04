@@ -1,5 +1,5 @@
 import { getCurrentAuthor } from '@/lib/auth'
-import { writeClient } from '@/sanity/lib/write-client'
+import { assertWriteToken, writeClient } from '@/sanity/lib/write-client'
 import fs from 'fs'
 import { mkdir, unlink, writeFile } from 'fs/promises'
 import { NextResponse } from 'next/server'
@@ -12,6 +12,8 @@ export async function POST(req: Request) {
   let tempFilePath: string | null = null
 
   try {
+    assertWriteToken()
+
     const author = await getCurrentAuthor()
 
     if (!author) {
