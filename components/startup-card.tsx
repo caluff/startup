@@ -10,13 +10,16 @@ import { cn, formatDate } from '@/lib/utils'
 export type StartupTypeCard = Omit<Startup, 'author'> & { author?: Author }
 
 const StartupCard = ({ post }: { post: StartupTypeCard }) => {
-  const { _createdAt, views, author, title, category, _id, poster, image, description } = post
+  const { _createdAt, views, author, title, category, _id, poster, image } = post
+  const startupImage = poster || image || '/logo-startup.png'
+  const authorImage = author?.image || '/logo.png'
+  const authorName = author?.name ?? 'Unknown author'
 
   return (
     <li className="group relative overflow-hidden bg-background rounded-3xl border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300">
       <div className="relative h-64 overflow-hidden">
         <img
-          src={poster ? poster : image}
+          src={startupImage}
           alt="startup preview"
           style={{ viewTransitionName: `sImage-${title}` }}
           className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
@@ -39,11 +42,14 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
       <div className="p-6">
         <h3 className="text-xl font-semibold tracking-tight line-clamp-1 mb-4">{title}</h3>
 
-        <Link href={`/user/${author?.id}`} className="flex items-center gap-3 mb-6 group/author">
+        <Link
+          href={`/user/${author?._id ?? ''}`}
+          className="flex items-center gap-3 mb-6 group/author"
+        >
           <div className="relative">
             <Image
-              src={author?.image!}
-              alt={author?.name!}
+              src={authorImage}
+              alt={authorName}
               width={40}
               height={40}
               className="rounded-full ring-2 ring-gray-100"
@@ -51,7 +57,7 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
             <div className="absolute inset-0 rounded-full ring-2 ring-primary/50 transform scale-110 opacity-0 group-hover/author:opacity-100 transition-all duration-300" />
           </div>
           <div>
-            <p className="font-medium text-gray-900">{author?.name}</p>
+            <p className="font-medium text-gray-900">{authorName}</p>
             <p className="text-sm text-gray-500">{formatDate(_createdAt)}</p>
           </div>
         </Link>

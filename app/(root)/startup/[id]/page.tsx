@@ -22,6 +22,11 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   if (!post) notFound()
 
+  const startupImage = post.poster || post.image
+  const authorImage = post.author?.image || '/logo.png'
+  const authorName = post.author?.name || 'Unknown author'
+  const authorProfileId = post.author?._id || post.author?.id
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-100 to-background">
       <section className="relative py-12 sm:py-16 md:py-20 overflow-hidden">
@@ -70,10 +75,10 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
       </section>
 
       <section className="container mx-auto px-4">
-        {(post.poster || post.image) && (
+        {startupImage && (
           <div className="max-w-4xl mx-auto bg-background/50 p-6 rounded-2xl shadow-lg">
             <img
-              src={post.poster ? post.poster : post.image}
+              src={startupImage}
               alt={'thumbnail'}
               className="w-full h-[400px] rounded-xl object-contain transition-transform duration-300 hover:scale-[1.02]"
               style={{ viewTransitionName: `sImage-${post.title}` }}
@@ -96,13 +101,13 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             {post?.author && (
               <div className="flex flex-col sm:flex-row justify-between items-center gap-6 mb-8 pb-2 border-t">
                 <Link
-                  href={`/user/${post.author?.id}`}
+                  href={`/user/${authorProfileId}`}
                   className="flex items-center gap-6 mt-8 group"
                 >
                   <div className="relative">
                     <Image
-                      src={post?.author?.image}
-                      alt={post.author?.name}
+                      src={authorImage}
+                      alt={authorName}
                       width={90}
                       height={90}
                       className="rounded-full ring-4 ring-pink-100 transition-transform duration-300 group-hover:scale-105"
@@ -126,7 +131,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
         {editorPosts?.length > 0 && (
           <div className="max-w-4xl mx-auto mt-20">
-            <h2 className="text-3xl font-bold text-gray-900 mb-10">Editor's Picks</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-10">Editor&apos;s Picks</h2>
             <div className="grid sm:grid-cols-2 gap-8">
               {editorPosts.map((post: StartupTypeCard, index: number) => (
                 <StartupCard key={index} post={post} />

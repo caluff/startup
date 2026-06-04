@@ -1,28 +1,29 @@
 'use server'
 
+import { getCurrentAuthor } from '@/lib/auth'
 import { parseServerActionResponse } from '@/lib/utils'
-import { client } from '@/sanity/lib/client'
-import { AUTHOR_BY_ID_QUERY } from '@/sanity/lib/queries'
 import { writeClient } from '@/sanity/lib/write-client'
-import { currentUser, User } from '@clerk/nextjs/server'
 import slugify from 'slugify'
 
-export const createPitch = async (state: any, form: FormData, pitch: string, poster: any) => {
-  const clerkUser: User | null = await currentUser()
+type UploadedPoster = {
+  _id: string
+}
 
-  if (!clerkUser) return parseServerActionResponse({ error: 'Not signed in', status: 'ERROR' })
-
-  const { title, description, category, link } = Object.fromEntries(
+export const createPitch = async (
+  _state: unknown,
+  form: FormData,
+  pitch: string,
+  poster: UploadedPoster | null
+) => {
+  const { title, description, category, link, email, phone, website } = Object.fromEntries(
     Array.from(form).filter(([key]) => key !== 'pitch')
   )
 
   const slug = slugify(title as string, { lower: true, strict: true })
-  const user = await client.withConfig({ useCdn: false }).fetch(AUTHOR_BY_ID_QUERY, {
-    id: clerkUser?.id,
-  })
+  const author = await getCurrentAuthor()
 
-  if (!user) {
-    return parseServerActionResponse({ error: 'User not found', status: 'ERROR' })
+  if (!author?._id) {
+    return parseServerActionResponse({ error: 'Not signed in', status: 'ERROR' })
   }
 
   try {
@@ -32,20 +33,27 @@ export const createPitch = async (state: any, form: FormData, pitch: string, pos
       category,
       image: link ?? '',
       slug: {
-        _type: slug,
+        _type: 'slug',
         current: slug,
       },
       author: {
         _type: 'reference',
-        _ref: user._id,
+        _ref: author._id,
       },
-      poster: {
-        _type: 'image',
-        asset: {
-          _type: 'reference',
-          _ref: poster._id,
-        },
-      },
+      email,
+      phone,
+      website,
+      ...(poster
+        ? {
+            poster: {
+              _type: 'image',
+              asset: {
+                _type: 'reference',
+                _ref: poster._id,
+              },
+            },
+          }
+        : {}),
       pitch,
     }
 

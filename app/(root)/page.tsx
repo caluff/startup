@@ -10,7 +10,9 @@ export default async function Home({
   const query = (await searchParams).query
   const category = (await searchParams).category
   const params = { search: query || null, category: category || null }
-  const { data: posts } = await sanityFetch({ query: STARTUP_QUERY, params })
+  const { data: posts } = (await sanityFetch({ query: STARTUP_QUERY, params })) as {
+    data: StartupTypeCard[]
+  }
 
   return (
     <>

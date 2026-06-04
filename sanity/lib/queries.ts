@@ -2,7 +2,7 @@ import { defineQuery } from 'groq'
 
 // Author Queries
 export const AUTHOR_BY_ID_QUERY = defineQuery(`
-  *[_type == "author" && id == $id][0]{
+  *[_type == "author" && (_id == $id || id == $id)][0]{
   _id,
   id,
   name,
@@ -10,6 +10,30 @@ export const AUTHOR_BY_ID_QUERY = defineQuery(`
   email,
   image,
   bio
+  }
+  `)
+
+export const AUTHOR_BY_EMAIL_QUERY = defineQuery(`
+  *[_type == "author" && email == $email][0]{
+  _id,
+  id,
+  name,
+  username,
+  email,
+  image,
+  bio
+  }
+  `)
+
+export const AUTHOR_AUTH_BY_EMAIL_QUERY = defineQuery(`
+  *[_type == "author" && email == $email][0]{
+  _id,
+  name,
+  username,
+  email,
+  image,
+  bio,
+  passwordHash
   }
   `)
 

@@ -1,4 +1,5 @@
 import { Home, SquarePlus } from 'lucide-react'
+import { Suspense } from 'react'
 
 import {
   Sidebar,
@@ -13,8 +14,9 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar'
 import { SidebarSearch } from '@/components/navigation/sidebar-query'
-import { auth } from '@clerk/nextjs/server'
-import UserButtonClerk from '../UserButtonClerk'
+import { getCurrentAuthor } from '@/lib/auth'
+import { signOutAction } from '@/lib/auth-actions'
+import { Button } from '@/components/ui/button'
 
 // Menu items.
 const items = [
@@ -27,24 +29,25 @@ const items = [
     title: 'Create startup',
     url: '/startup/create',
     icon: SquarePlus,
-    needsAuth: true,
   },
 ]
 
 export async function AppSidebar() {
-  const { userId } = await auth()
+  const author = await getCurrentAuthor()
 
   return (
     <Sidebar>
       <SidebarContent>
-        <SidebarSearch />
+        <Suspense fallback={null}>
+          <SidebarSearch />
+        </Suspense>
 
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
-                if (item.needsAuth && !userId) {
+                if (item.url === '/startup/create' && !author) {
                   return null
                 }
 
@@ -64,9 +67,18 @@ export async function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarRail />
-
-      <SidebarFooter>
-        <UserButtonClerk />
+      <SidebarFooter className="p-4">
+        {author ? (
+          <form action={signOutAction}>
+            <Button type="submit" variant="outline" className="w-full">
+              Sign out
+            </Button>
+          </form>
+        ) : (
+          <Button asChild className="w-full">
+            <a href="/sign-in">Sign in</a>
+          </Button>
+        )}
       </SidebarFooter>
     </Sidebar>
   )

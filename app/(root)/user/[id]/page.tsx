@@ -35,7 +35,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             </h3>
           </div>
           <Image
-            src={user.image}
+            src={user.image || '/logo.png'}
             alt={user.name}
             width={220}
             height={220}

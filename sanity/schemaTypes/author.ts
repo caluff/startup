@@ -1,12 +1,12 @@
 import { defineField, defineType } from 'sanity'
 import { UserIcon } from 'lucide-react'
+import type { ComponentType } from 'react'
 
 export const author = defineType({
   name: 'author',
   title: 'Author',
   type: 'document',
-  // @ts-ignore
-  icon: UserIcon,
+  icon: UserIcon as ComponentType,
   fields: [
     defineField({
       name: 'id',
@@ -31,6 +31,12 @@ export const author = defineType({
     defineField({
       name: 'bio',
       type: 'text',
+    }),
+    defineField({
+      name: 'passwordHash',
+      type: 'string',
+      hidden: true,
+      readOnly: true,
     }),
   ],
   preview: {

@@ -1,4 +1,4 @@
-import { useQueryState, useQueryStates } from 'nuqs'
+import { useQueryStates } from 'nuqs'
 
 export function useProductParams() {
   const [{ query, category }, setParams] = useQueryStates(

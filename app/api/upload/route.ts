@@ -1,3 +1,4 @@
+import { getCurrentAuthor } from '@/lib/auth'
 import { writeClient } from '@/sanity/lib/write-client'
 import fs from 'fs'
 import { mkdir, unlink, writeFile } from 'fs/promises'
@@ -11,6 +12,12 @@ export async function POST(req: Request) {
   let tempFilePath: string | null = null
 
   try {
+    const author = await getCurrentAuthor()
+
+    if (!author) {
+      return NextResponse.json({ error: 'Not signed in' }, { status: 401 })
+    }
+
     const formData = await req.formData()
     const file = formData.get('file') as File
 

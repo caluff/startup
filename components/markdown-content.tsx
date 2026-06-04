@@ -1,36 +1,30 @@
-// @ts-nocheck
-
 import { marked } from 'marked'
-import parse, { DOMNode, domToReact } from 'html-react-parser'
+import parse, { Element, domToReact, type DOMNode, type HTMLReactParserOptions } from 'html-react-parser'
+import type { ReactNode } from 'react'
 
 // Convert Markdown to HTML with syntax highlighting
 export const markdownToHtml = (markdown: string) => {
-  marked.setOptions({
+  return marked(markdown, {
     gfm: true, // GitHub Flavored Markdown
     breaks: true, // Convert line breaks to <br>
-    highlight: function (code: string, lang: string) {
-      // You can integrate a syntax highlighter like Prism.js here
-      return code
-    },
+    async: false,
   })
-
-  return marked(markdown)
 } // Individual styled components for each HTML element
 
 // Individual styled components for each HTML element
-const Paragraph = ({ children }: { children: DOMNode[] | DOMNode }) => (
+const Paragraph = ({ children }: { children: ReactNode }) => (
   <p className="text-gray-600 leading-8 mb-6 text-lg font-normal selection:bg-blue-100/75">
     {children}
   </p>
 )
 
-const Heading1 = ({ children }: { children: DOMNode[] | DOMNode }) => (
+const Heading1 = ({ children }: { children: ReactNode }) => (
   <h1 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mt-12 mb-8 leading-tight tracking-tight">
     {children}
   </h1>
 )
 
-const Heading2 = ({ children }: { children: DOMNode[] | DOMNode }) => (
+const Heading2 = ({ children }: { children: ReactNode }) => (
   <h2
     className="text-3xl font-bold text-gray-800 mt-12 mb-6 leading-snug tracking-tight relative
       after:content-[''] after:block after:w-20 after:h-1 after:bg-gradient-to-r after:from-blue-500/50 after:to-purple-500/50 after:mt-2 after:rounded-full"
@@ -39,7 +33,7 @@ const Heading2 = ({ children }: { children: DOMNode[] | DOMNode }) => (
   </h2>
 )
 
-const Heading3 = ({ children }: { children: DOMNode[] | DOMNode }) => (
+const Heading3 = ({ children }: { children: ReactNode }) => (
   <h3 className="text-2xl font-semibold text-gray-700 mt-10 mb-4 leading-snug group">
     <span className="group-hover:text-blue-600 transition-colors duration-200 ease-in-out">
       {children}
@@ -47,28 +41,28 @@ const Heading3 = ({ children }: { children: DOMNode[] | DOMNode }) => (
   </h3>
 )
 
-const UnorderedList = ({ children }: { children: DOMNode[] | DOMNode }) => (
+const UnorderedList = ({ children }: { children: ReactNode }) => (
   <ul className="list-none mb-8 space-y-3 ml-4">{children}</ul>
 )
 
-const OrderedList = ({ children }: { children: DOMNode[] | DOMNode }) => (
+const OrderedList = ({ children }: { children: ReactNode }) => (
   <ol className="list-none mb-8 space-y-3 ml-4 counter-reset-item">{children}</ol>
 )
 
-const ListItem = ({ children }: { children: DOMNode[] | DOMNode }) => (
+const ListItem = ({ children }: { children: ReactNode }) => (
   <li className="text-gray-600 text-lg leading-relaxed pl-8 relative before:absolute before:left-0 before:top-[11px] before:w-3 before:h-3 before:bg-blue-100 before:rounded-full before:border before:border-blue-300 hover:before:bg-blue-200 hover:before:border-blue-400 transition-all duration-200">
     {children}
   </li>
 )
 
-const BlockQuote = ({ children }: { children: DOMNode[] | DOMNode }) => (
+const BlockQuote = ({ children }: { children: ReactNode }) => (
   <blockquote className="relative my-12 px-8 py-6 text-gray-700 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl shadow-[inset_0_0_1px_rgba(0,0,0,0.1)] border border-blue-100/50">
-    <span className="absolute text-6xl text-blue-300/20 font-serif -top-4 -left-2">"</span>
+    <span className="absolute text-6xl text-blue-300/20 font-serif -top-4 -left-2">&quot;</span>
     <div className="relative z-10 italic">{children}</div>
   </blockquote>
 )
 
-const CodeBlock = ({ children }: { children: DOMNode[] | DOMNode }) => (
+const CodeBlock = ({ children }: { children: ReactNode }) => (
   <pre
     className="bg-gray-900 p-8 rounded-xl overflow-x-auto mb-8 text-gray-100 shadow-lg relative
       after:content-[''] after:absolute after:top-0 after:right-0 after:w-40 after:h-full 
@@ -83,13 +77,13 @@ const CodeBlock = ({ children }: { children: DOMNode[] | DOMNode }) => (
   </pre>
 )
 
-const InlineCode = ({ children }: { children: DOMNode[] | DOMNode }) => (
+const InlineCode = ({ children }: { children: ReactNode }) => (
   <code className="bg-blue-50 px-2.5 py-1 rounded-md text-sm font-mono text-blue-600 border border-blue-100 shadow-sm">
     {children}
   </code>
 )
 
-const Link = ({ href, children }: { href: string; children: DOMNode[] | DOMNode }) => (
+const Link = ({ href, children }: { href: string; children: ReactNode }) => (
   <a
     href={href}
     className="text-blue-600 hover:text-blue-700 font-medium relative inline-block 
@@ -104,49 +98,49 @@ const Link = ({ href, children }: { href: string; children: DOMNode[] | DOMNode 
 )
 
 // Options for the HTML parser
-const options = {
-  replace: ({
-    name,
-    attribs,
-    children,
-  }: {
-    name: string
-    attribs: any
-    children: DOMNode[] | DOMNode
-  }) => {
+const renderChildren = (children: Element['children']) => domToReact(children as DOMNode[], options)
+
+const options: HTMLReactParserOptions = {
+  replace: (domNode) => {
+    if (!(domNode instanceof Element)) {
+      return
+    }
+
+    const { name, attribs, children } = domNode
+
     switch (name) {
       case 'p':
-        return <Paragraph>{domToReact(children, options)}</Paragraph>
+        return <Paragraph>{renderChildren(children)}</Paragraph>
       case 'h1':
-        return <Heading1>{domToReact(children, options)}</Heading1>
+        return <Heading1>{renderChildren(children)}</Heading1>
       case 'h2':
-        return <Heading2>{domToReact(children, options)}</Heading2>
+        return <Heading2>{renderChildren(children)}</Heading2>
       case 'h3':
-        return <Heading3>{domToReact(children, options)}</Heading3>
+        return <Heading3>{renderChildren(children)}</Heading3>
       case 'ul':
-        return <UnorderedList>{domToReact(children, options)}</UnorderedList>
+        return <UnorderedList>{renderChildren(children)}</UnorderedList>
       case 'ol':
-        return <OrderedList>{domToReact(children, options)}</OrderedList>
+        return <OrderedList>{renderChildren(children)}</OrderedList>
       case 'li':
-        return <ListItem>{domToReact(children, options)}</ListItem>
+        return <ListItem>{renderChildren(children)}</ListItem>
       case 'blockquote':
-        return <BlockQuote>{domToReact(children, options)}</BlockQuote>
+        return <BlockQuote>{renderChildren(children)}</BlockQuote>
       case 'pre':
-        return <CodeBlock>{domToReact(children, options)}</CodeBlock>
+        return <CodeBlock>{renderChildren(children)}</CodeBlock>
       case 'code':
         // Only use InlineCode if it's not inside a pre tag
-        if (children[0]?.parent?.name !== 'pre') {
-          return <InlineCode>{domToReact(children, options)}</InlineCode>
+        if (!(children[0]?.parent instanceof Element) || children[0].parent.name !== 'pre') {
+          return <InlineCode>{renderChildren(children)}</InlineCode>
         }
         return null
       case 'a':
-        return <Link href={attribs.href}>{domToReact(children, options)}</Link>
+        return <Link href={attribs.href ?? '#'}>{renderChildren(children)}</Link>
     }
   },
 }
 
 // Main component that receives HTML content
-export default function MdContentBlock({ content }) {
+export default function MdContentBlock({ content }: { content?: string }) {
   if (!content) return null
 
   const htmlContent = markdownToHtml(content)

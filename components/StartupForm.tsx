@@ -12,6 +12,10 @@ import { useRouter } from 'next/navigation'
 import { useActionState, useState } from 'react'
 import { z } from 'zod'
 
+type UploadedPoster = {
+  _id: string
+}
+
 export const StartupForm = () => {
   const [pitch, setPitch] = useState('')
   const [imageUrl, setImageUrl] = useState('')
@@ -35,8 +39,8 @@ export const StartupForm = () => {
     setPoster(undefined)
   }
 
-  const handleFormSubmit = async (prevState: any, formDataObj: FormData) => {
-    let posterResponse = null
+  const handleFormSubmit = async (prevState: unknown, formDataObj: FormData) => {
+    let posterResponse: UploadedPoster | null = null
 
     try {
       if (poster) {
@@ -48,8 +52,8 @@ export const StartupForm = () => {
           body: uploadFormData,
         })
 
-        const result = await response.json()
-        posterResponse = result.result
+        const result = (await response.json()) as { result?: UploadedPoster }
+        posterResponse = result.result ?? null
       }
     } catch (error) {
       console.log(error)
@@ -82,8 +86,15 @@ export const StartupForm = () => {
       console.log(error)
 
       if (error instanceof z.ZodError) {
-        const fieldErrors = error.flatten().fieldErrors
-        setErrors(fieldErrors as unknown as Record<string, string>)
+        const fieldErrors = error.flatten().fieldErrors as Record<string, string[] | undefined>
+        setErrors(
+          Object.fromEntries(
+            Object.entries(fieldErrors).map(([field, messages]) => [
+              field,
+              messages?.[0] ?? 'Invalid value',
+            ])
+          )
+        )
         toast({
           title: 'Error',
           description: 'Please check your inputs and try again',
@@ -103,7 +114,7 @@ export const StartupForm = () => {
     }
   }
 
-  const [state, formAction, isPending] = useActionState(handleFormSubmit, {
+  const [, formAction, isPending] = useActionState(handleFormSubmit, {
     error: '',
     status: 'INITIAL',
   })
@@ -279,7 +290,7 @@ export const StartupForm = () => {
             </label>
             <MDEditor
               value={pitch}
-              onChange={(value) => setPitch(value as string)}
+              onChange={(value) => setPitch(value ?? '')}
               id="pitch"
               preview="edit"
               height={400}
